@@ -58,23 +58,23 @@ const Tools: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-24 space-y-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12 sm:py-24 space-y-12 sm:space-y-16">
       {/* Header */}
-      <header className="space-y-8 max-w-5xl">
-        <div className="text-xs font-mono uppercase tracking-[0.6em] text-electric-blue mb-4">Research Domains</div>
-        <h1 className="text-6xl md:text-7xl font-bold tracking-tight text-white font-display">Systems Legibility</h1>
-        <p className="text-soft-slate text-2xl font-light leading-relaxed max-w-3xl">
+      <header className="space-y-6 sm:space-y-8 max-w-5xl">
+        <div className="text-xs font-mono uppercase tracking-[0.4em] sm:tracking-[0.6em] text-electric-blue mb-4">Research Domains</div>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white font-display">Systems Legibility</h1>
+        <p className="text-soft-slate text-lg sm:text-xl lg:text-2xl font-light leading-relaxed max-w-3xl">
           We reframe digital platforms as research domains. Our tools observe, measure, and analyze how signals interact with platform distribution thresholds.
         </p>
       </header>
 
       {/* Primary Disclaimer Banner */}
-      <section className="p-10 border border-electric-blue/20 bg-electric-blue/5 glass-card">
-        <div className="flex items-start gap-8">
-          <div className="w-10 h-10 flex-shrink-0 border border-electric-blue flex items-center justify-center text-electric-blue font-bold text-sm">!</div>
+      <section className="p-6 sm:p-10 border border-electric-blue/20 bg-electric-blue/5 glass-card">
+        <div className="flex items-start gap-4 sm:gap-8">
+          <div className="w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0 border border-electric-blue flex items-center justify-center text-electric-blue font-bold text-xs sm:text-sm">!</div>
           <div className="space-y-2">
             <h4 className="text-xs font-mono uppercase tracking-widest text-white">Observational Instrument Disclaimer</h4>
-            <p className="text-sm text-soft-slate leading-relaxed max-w-4xl">
+            <p className="text-xs sm:text-sm text-soft-slate leading-relaxed max-w-4xl">
               FAKE tools are built for research, observation, and responsible experimentation. FAKE does not provide automated engagement, artificial amplification, or guaranteed outcomes. The following categories represent our current observational surfaces.
             </p>
           </div>
@@ -102,12 +102,12 @@ const Tools: React.FC = () => {
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-2 sm:gap-3">
           {categories.map((cat) => (
             <button
               key={cat.value}
               onClick={() => setSelectedCategory(cat.value)}
-              className={`px-4 py-2 text-xs font-mono uppercase tracking-wider transition-all border ${
+              className={`px-3 sm:px-4 py-1.5 sm:py-2 text-[10px] sm:text-xs font-mono uppercase tracking-wider transition-all border ${
                 selectedCategory === cat.value
                   ? 'border-electric-blue bg-electric-blue/10 text-electric-blue'
                   : 'border-white/10 text-soft-slate hover:border-white/20 hover:text-white'
@@ -146,23 +146,23 @@ const Tools: React.FC = () => {
                 {/* Platform Header - Clickable */}
                 <button
                   onClick={() => togglePlatform(platform.id)}
-                  className="w-full p-6 text-left flex items-start justify-between gap-4 group"
+                  className="w-full p-4 sm:p-6 text-left flex items-start justify-between gap-3 sm:gap-4 group"
                 >
-                  <div className="flex-1 space-y-2">
-                    <div className="flex items-center gap-3">
-                      <h3 className="text-lg font-bold text-white font-display">{platform.name}</h3>
+                  <div className="flex-1 space-y-2 min-w-0">
+                    <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+                      <h3 className="text-base sm:text-lg font-bold text-white font-display">{platform.name}</h3>
                       {platform.launchStatus === 'day1' && (
                         <span className="px-2 py-0.5 text-[10px] font-mono uppercase tracking-wider bg-electric-blue/20 text-electric-blue border border-electric-blue/30">
                           Day-1
                         </span>
                       )}
                     </div>
-                    <p className="text-sm text-soft-slate leading-relaxed max-w-3xl">
+                    <p className="text-xs sm:text-sm text-soft-slate leading-relaxed max-w-3xl">
                       {platform.description}
                     </p>
-                    <div className="flex items-center gap-4 text-xs font-mono text-soft-slate/60 uppercase tracking-wider">
+                    <div className="flex items-center gap-2 sm:gap-4 text-[10px] sm:text-xs font-mono text-soft-slate/60 uppercase tracking-wider flex-wrap">
                       <span>{platform.capabilities.length} {platform.capabilities.length === 1 ? 'Capability' : 'Capabilities'}</span>
-                      <span>•</span>
+                      <span className="hidden sm:inline">•</span>
                       <span>{capabilityCount} {capabilityCount === 1 ? 'Variant' : 'Variants'}</span>
                     </div>
                   </div>
@@ -180,7 +180,7 @@ const Tools: React.FC = () => {
 
                 {/* Platform Content - Expandable */}
                 {isPlatformExpanded && (
-                  <div className="border-t border-white/5 p-6 space-y-6">
+                  <div className="border-t border-white/5 p-4 sm:p-6 space-y-4 sm:space-y-6">
                     {platform.capabilities.map((capability, capIdx) => {
                       const capabilityId = `${platform.id}-${capIdx}`;
                       const isCapabilityExpanded = expandedCapabilities.has(capabilityId);

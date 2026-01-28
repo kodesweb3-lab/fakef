@@ -34,9 +34,9 @@ const BinaryLogo: React.FC<BinaryLogoProps> = ({
     : false;
 
   const sizeClasses = {
-    small: 'text-6xl md:text-8xl',
-    medium: 'text-8xl md:text-12xl',
-    large: 'text-[10rem] md:text-[16rem]',
+    small: 'text-4xl sm:text-6xl md:text-8xl',
+    medium: 'text-5xl sm:text-8xl md:text-12xl',
+    large: 'text-6xl sm:text-8xl md:text-[10rem] lg:text-[16rem]',
   };
 
   useEffect(() => {
@@ -138,9 +138,9 @@ const BinaryLogo: React.FC<BinaryLogoProps> = ({
   }, [size, prefersReducedMotion, canvasError]);
 
   const tekSizeClasses = {
-    small: 'text-4xl md:text-6xl',
-    medium: 'text-6xl md:text-8xl',
-    large: 'text-7xl md:text-10rem',
+    small: 'text-3xl sm:text-4xl md:text-6xl',
+    medium: 'text-4xl sm:text-6xl md:text-8xl',
+    large: 'text-4xl sm:text-5xl md:text-7xl lg:text-10rem',
   };
 
   return (

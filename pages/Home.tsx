@@ -58,14 +58,14 @@ const Home: React.FC = () => {
       </section>
 
       {/* Presentation Content */}
-      <section className="max-w-7xl mx-auto px-6 py-48 border-t border-white/5">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-32 items-start">
-          <div className="space-y-12">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 py-24 sm:py-48 border-t border-white/5">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 sm:gap-32 items-start">
+          <div className="space-y-8 sm:space-y-12">
             <div className="space-y-4">
-              <h2 className="text-6xl font-bold tracking-tight font-display text-white uppercase">The Philosophy</h2>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight font-display text-white uppercase">The Philosophy</h2>
               <div className="w-24 h-1.5 bg-electric-blue" />
             </div>
-            <div className="space-y-8 text-2xl text-soft-slate font-light leading-relaxed">
+            <div className="space-y-6 sm:space-y-8 text-lg sm:text-xl lg:text-2xl text-soft-slate font-light leading-relaxed">
               <p>
                 Attention has become the most valuable resource on the internet. It is mined, traded, and manufactured, yet rarely understood by those who provide it.
               </p>
@@ -121,18 +121,18 @@ const Home: React.FC = () => {
       </section>
 
       {/* Final Call to Action */}
-      <section className="text-center py-64 px-6 relative bg-white/[0.01]">
-        <div className="max-w-4xl mx-auto space-y-16">
-          <div className="space-y-6">
-            <h3 className="text-sm font-mono uppercase tracking-[0.6em] text-signal-purple">Ready to observe?</h3>
-            <h2 className="text-7xl md:text-9xl font-bold tracking-tight text-white font-display leading-[0.8]">
+      <section className="text-center py-32 sm:py-64 px-4 sm:px-6 relative bg-white/[0.01]">
+        <div className="max-w-4xl mx-auto space-y-12 sm:space-y-16">
+          <div className="space-y-4 sm:space-y-6">
+            <h3 className="text-xs sm:text-sm font-mono uppercase tracking-[0.4em] sm:tracking-[0.6em] text-signal-purple">Ready to observe?</h3>
+            <h2 className="text-4xl sm:text-6xl md:text-7xl lg:text-9xl font-bold tracking-tight text-white font-display leading-[0.8] px-4">
               Understand first.<br/>
               Everything second.
             </h2>
           </div>
           <Link 
             to={isAuthorized ? "/dashboard" : "/auth/login"} 
-            className="inline-block px-20 py-6 border border-white/20 text-white hover:bg-white hover:text-midnight transition-all tracking-[0.5em] uppercase text-xs font-bold font-mono"
+            className="inline-block px-12 sm:px-20 py-4 sm:py-6 border border-white/20 text-white hover:bg-white hover:text-midnight transition-all tracking-[0.3em] sm:tracking-[0.5em] uppercase text-xs font-bold font-mono"
           >
             Access Research Hub
           </Link>
