@@ -21,7 +21,7 @@ const BinaryLogo: React.FC<BinaryLogoProps> = ({
 }) => {
   const [fakeBinary, setFakeBinary] = useState<string>('01001000 01000001 01001011 01000101');
   const [tekBinary, setTekBinary] = useState<string>('01010100 01000101 01001011');
-  const updateIntervalRef = useRef<NodeJS.Timeout>();
+  const updateIntervalRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const prefersReducedMotion = typeof window !== 'undefined' && typeof window.matchMedia !== 'undefined'
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches 
