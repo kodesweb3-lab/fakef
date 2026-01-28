@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import BinaryLogo from '../components/BinaryLogo';
 
 const Home: React.FC = () => {
   const isAuthorized = localStorage.getItem('fake_authorized') === 'true';
@@ -16,9 +17,9 @@ const Home: React.FC = () => {
         
         <div className="relative z-10 max-w-5xl w-full text-center space-y-14">
           <div className="space-y-8">
-            <h1 className="text-[10rem] md:text-[16rem] font-bold tracking-[-0.05em] leading-[0.75] text-white font-display">
-              FAKE
-            </h1>
+            <div className="flex justify-center">
+              <BinaryLogo size="large" />
+            </div>
             <div className="space-y-2">
               <p className="text-xl md:text-2xl text-soft-slate tracking-[0.4em] uppercase font-light max-w-3xl mx-auto">
                 Field Analysis of Kinetic Engagement
