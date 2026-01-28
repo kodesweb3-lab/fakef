@@ -21,10 +21,22 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
   const [selectedCategory, setSelectedCategory] = useState<PlatformService['category'] | 'all'>('all');
   const [expandedPlatforms, setExpandedPlatforms] = useState<Set<string>>(new Set());
   const [expandedCapabilities, setExpandedCapabilities] = useState<Set<string>>(new Set());
+  const [localShowSearch, setLocalShowSearch] = useState(false);
   
-  // Use search context - SearchProvider is always available when this component is rendered
-  // (MobileAppLayout wraps with SearchProvider when showSearch is true)
-  const { showSearch, setShowSearch } = useSearch();
+  // Use search context if available, otherwise use local state
+  // This component is only rendered on mobile where SearchProvider is available
+  // But we add fallback for safety
+  let showSearch = localShowSearch;
+  let setShowSearch = setLocalShowSearch;
+  
+  try {
+    const searchContext = useSearch();
+    showSearch = searchContext.showSearch;
+    setShowSearch = searchContext.setShowSearch;
+  } catch {
+    // Not in SearchProvider - use local state (fallback for desktop rendering)
+    // This shouldn't happen on mobile, but prevents errors
+  }
 
   // Filter services
   const filteredServices = useMemo(() => {
