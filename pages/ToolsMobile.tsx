@@ -27,7 +27,7 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
   // This component is only rendered on mobile where SearchProvider is available
   // But we add fallback for safety
   let showSearch = localShowSearch;
-  let setShowSearch = setLocalShowSearch;
+  let setShowSearch: (show: boolean) => void = setLocalShowSearch;
   
   try {
     const searchContext = useSearch();
@@ -36,6 +36,7 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
   } catch {
     // Not in SearchProvider - use local state (fallback for desktop rendering)
     // This shouldn't happen on mobile, but prevents errors
+    // setShowSearch already points to setLocalShowSearch
   }
 
   // Filter services
