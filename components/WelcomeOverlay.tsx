@@ -28,113 +28,131 @@ const OVERLAY_FADE_OUT_END = 3000; // ms
 const WelcomeOverlay: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameRef = useRef<number | undefined>(undefined);
-  const startTimeRef = useRef<number>(Date.now());
+  const startTimeRef = useRef<number>(0);
   const binaryGridRef = useRef<Array<{ x: number; y: number; value: string }>>([]);
   const originalOverflowRef = useRef<string>('');
-  const [shouldRender, setShouldRender] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
-  const [hasCheckedStorage, setHasCheckedStorage] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const hasStartedRef = useRef(false);
 
   useEffect(() => {
-    // Always mount first, then check sessionStorage
+    // Skip if already started
+    if (hasStartedRef.current) return;
+    hasStartedRef.current = true;
+
+    // Check if window and sessionStorage are available
     if (typeof window === 'undefined' || typeof sessionStorage === 'undefined') {
-      setHasCheckedStorage(true);
+      setIsComplete(true);
       return;
     }
 
-    // Small delay to ensure component is mounted
-    const checkStorage = () => {
-      const alreadySeen = sessionStorage.getItem(SESSION_STORAGE_KEY) === 'true';
-      setHasCheckedStorage(true);
-      
-      if (alreadySeen) {
-        setIsComplete(true);
-        return;
-      }
+    // Check if already shown this session
+    const alreadySeen = sessionStorage.getItem(SESSION_STORAGE_KEY) === 'true';
+    if (alreadySeen) {
+      setIsComplete(true);
+      return;
+    }
 
-      // Start animation
+    // Start animation after a small delay to ensure DOM is ready
+    const startTimeout = setTimeout(() => {
+      setIsVisible(true);
       startAnimation();
+    }, 100);
+
+    return () => {
+      clearTimeout(startTimeout);
     };
+  }, []);
 
-    const startAnimation = () => {
-
-      // Check for reduced motion preference
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReducedMotion) {
-        // Show briefly then fade out
-        setShouldRender(true);
-        originalOverflowRef.current = document.body.style.overflow;
-        document.body.style.overflow = 'hidden';
-        
-        setTimeout(() => {
-          setIsComplete(true);
-          sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
-          document.body.style.overflow = originalOverflowRef.current;
-        }, 1000);
-        return;
-      }
-
-      setShouldRender(true);
-      startTimeRef.current = Date.now();
-      
-      // Prevent body scroll during overlay
+  const startAnimation = () => {
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      // Show briefly then fade out
       originalOverflowRef.current = document.body.style.overflow;
       document.body.style.overflow = 'hidden';
+      
+      setTimeout(() => {
+        setIsComplete(true);
+        sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
+        document.body.style.overflow = originalOverflowRef.current || '';
+      }, 1000);
+      return;
+    }
 
-      const canvas = canvasRef.current;
-      if (!canvas) {
-        document.body.style.overflow = originalOverflowRef.current;
-        return;
-      }
+    startTimeRef.current = Date.now();
+    
+    // Prevent body scroll during overlay
+    originalOverflowRef.current = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        document.body.style.overflow = originalOverflowRef.current;
-        return;
-      }
+    const canvas = canvasRef.current;
+    if (!canvas) {
+      setIsComplete(true);
+      document.body.style.overflow = originalOverflowRef.current || '';
+      return;
+    }
 
-      // Setup canvas with device pixel ratio (capped at 2 for performance)
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const updateCanvasSize = () => {
-        const rect = canvas.getBoundingClientRect();
-        canvas.width = rect.width * dpr;
-        canvas.height = rect.height * dpr;
-        ctx.scale(dpr, dpr);
-        ctx.font = `${DEFAULT_BINARY_CONFIG.fontSize}px 'IBM Plex Mono', monospace`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
+    const ctx = canvas.getContext('2d');
+    if (!ctx) {
+      setIsComplete(true);
+      document.body.style.overflow = originalOverflowRef.current || '';
+      return;
+    }
 
-        // Regenerate grid on resize
-        binaryGridRef.current = generateBinaryGrid(
-          rect.width,
-          rect.height,
-          DEFAULT_BINARY_CONFIG.fontSize * 1.5,
-          DEFAULT_BINARY_CONFIG.density
-        );
-      };
+    // Setup canvas with device pixel ratio (capped at 2 for performance)
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    
+    const updateCanvasSize = () => {
+      if (!canvas || !ctx) return;
+      const rect = canvas.getBoundingClientRect();
+      if (rect.width === 0 || rect.height === 0) return;
+      
+      canvas.width = rect.width * dpr;
+      canvas.height = rect.height * dpr;
+      ctx.scale(dpr, dpr);
+      ctx.font = `${DEFAULT_BINARY_CONFIG.fontSize}px 'IBM Plex Mono', monospace`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
 
-      updateCanvasSize();
-      window.addEventListener('resize', updateCanvasSize);
+      // Regenerate grid on resize
+      binaryGridRef.current = generateBinaryGrid(
+        rect.width,
+        rect.height,
+        DEFAULT_BINARY_CONFIG.fontSize * 1.5,
+        DEFAULT_BINARY_CONFIG.density
+      );
+    };
 
-      const animate = () => {
-        const elapsed = Date.now() - startTimeRef.current;
-        const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
+    updateCanvasSize();
+    window.addEventListener('resize', updateCanvasSize);
 
-        if (progress >= 1) {
-          setIsComplete(true);
-          sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
-          document.body.style.overflow = originalOverflowRef.current;
-          window.removeEventListener('resize', updateCanvasSize);
-          return;
+    let lastUpdateTime = 0;
+    const animate = () => {
+      const elapsed = Date.now() - startTimeRef.current;
+      const progress = Math.min(elapsed / ANIMATION_DURATION, 1);
+
+      if (progress >= 1) {
+        setIsComplete(true);
+        sessionStorage.setItem(SESSION_STORAGE_KEY, 'true');
+        document.body.style.overflow = originalOverflowRef.current || '';
+        window.removeEventListener('resize', updateCanvasSize);
+        if (animationFrameRef.current) {
+          cancelAnimationFrame(animationFrameRef.current);
         }
+        return;
+      }
 
-        // Clear canvas
+      // Clear canvas
+      if (canvas && ctx) {
         ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
 
         // Update binary grid periodically
-        if (elapsed % DEFAULT_BINARY_CONFIG.updateRate < 16) {
+        const now = Date.now();
+        if (now - lastUpdateTime >= DEFAULT_BINARY_CONFIG.updateRate) {
           updateBinaryGrid(binaryGridRef.current, 0.3);
+          lastUpdateTime = now;
         }
 
         // Calculate opacities
@@ -144,9 +162,17 @@ const WelcomeOverlay: React.FC = () => {
           LOGO_FADE_IN_START / ANIMATION_DURATION,
           LOGO_FADE_OUT_END / ANIMATION_DURATION
         );
-        const logoScale = progress < LOGO_FADE_OUT_START / ANIMATION_DURATION
-          ? easing.easeOut((progress - LOGO_FADE_IN_START / ANIMATION_DURATION) / ((LOGO_FADE_IN_END - LOGO_FADE_IN_START) / ANIMATION_DURATION))
-          : 1 - easing.easeIn((progress - LOGO_FADE_OUT_START / ANIMATION_DURATION) / ((LOGO_FADE_OUT_END - LOGO_FADE_OUT_START) / ANIMATION_DURATION));
+        
+        let logoScale = 1;
+        if (progress < LOGO_FADE_IN_START / ANIMATION_DURATION) {
+          logoScale = 0;
+        } else if (progress < LOGO_FADE_OUT_START / ANIMATION_DURATION) {
+          const fadeInProgress = (progress - LOGO_FADE_IN_START / ANIMATION_DURATION) / ((LOGO_FADE_IN_END - LOGO_FADE_IN_START) / ANIMATION_DURATION);
+          logoScale = easing.easeOut(fadeInProgress);
+        } else {
+          const fadeOutProgress = (progress - LOGO_FADE_OUT_START / ANIMATION_DURATION) / ((LOGO_FADE_OUT_END - LOGO_FADE_OUT_START) / ANIMATION_DURATION);
+          logoScale = 1 - easing.easeIn(fadeOutProgress);
+        }
 
         // Draw binary background
         ctx.globalAlpha = bgOpacity * 0.4;
@@ -161,7 +187,7 @@ const WelcomeOverlay: React.FC = () => {
         });
 
         // Draw "FAKE Tek" logo
-        if (progress >= LOGO_FADE_IN_START / ANIMATION_DURATION) {
+        if (progress >= LOGO_FADE_IN_START / ANIMATION_DURATION && logoScale > 0.1) {
           const centerX = canvas.width / dpr / 2;
           const centerY = canvas.height / dpr / 2;
           const scale = Math.max(0.1, logoScale);
@@ -203,40 +229,23 @@ const WelcomeOverlay: React.FC = () => {
 
           ctx.restore();
         }
-
-        animationFrameRef.current = requestAnimationFrame(animate);
-      };
+      }
 
       animationFrameRef.current = requestAnimationFrame(animate);
-
-      return () => {
-        if (animationFrameRef.current) {
-          cancelAnimationFrame(animationFrameRef.current);
-        }
-        window.removeEventListener('resize', updateCanvasSize);
-        // Restore original overflow
-        document.body.style.overflow = originalOverflowRef.current || '';
-      };
     };
 
-    // Small delay to ensure DOM is ready
-    const timeoutId = setTimeout(checkStorage, 50);
+    animationFrameRef.current = requestAnimationFrame(animate);
 
     return () => {
-      clearTimeout(timeoutId);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
+      window.removeEventListener('resize', updateCanvasSize);
       document.body.style.overflow = originalOverflowRef.current || '';
     };
-  }, []);
+  };
 
-  // Don't render until we've checked storage
-  if (!hasCheckedStorage) {
-    return null;
-  }
-
-  // Don't render if already shown
+  // Don't render if complete
   if (isComplete) {
     return null;
   }
@@ -246,9 +255,9 @@ const WelcomeOverlay: React.FC = () => {
       ref={containerRef}
       className="fixed inset-0 z-[9999] bg-midnight"
       style={{
-        opacity: shouldRender ? 1 : 0,
-        pointerEvents: shouldRender ? 'auto' : 'none',
-        transition: isComplete ? 'opacity 0.3s ease-out' : 'none',
+        opacity: isVisible ? 1 : 0,
+        pointerEvents: isVisible ? 'auto' : 'none',
+        transition: 'opacity 0.1s ease-in',
       }}
     >
       <canvas
