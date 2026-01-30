@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { CommandPalette } from './components/nav/CommandPalette';
 import Home from './pages/Home';
 import Tools from './pages/Tools';
 import Ethics from './pages/Ethics';
@@ -16,7 +17,6 @@ import Rewards from './pages/Rewards';
 import Scan from './pages/mobile/Scan';
 import Notes from './pages/mobile/Notes';
 import Account from './pages/mobile/Account';
-import { useResponsiveLayout } from './hooks/useResponsiveLayout';
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const isAuthorized = localStorage.getItem('fake_authorized') === 'true';
@@ -31,7 +31,18 @@ const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
 const App: React.FC = () => {
   const [isAuthorized, setIsAuthorized] = useState(localStorage.getItem('fake_authorized') === 'true');
-  const { isMobile } = useResponsiveLayout();
+  const [commandOpen, setCommandOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        setCommandOpen((open) => !open);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const handleAuthorize = () => {
     localStorage.setItem('fake_authorized', 'true');
@@ -144,6 +155,7 @@ const App: React.FC = () => {
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
+      <CommandPalette open={commandOpen} onOpenChange={setCommandOpen} isAuthorized={isAuthorized} />
     </Router>
   );
 };
