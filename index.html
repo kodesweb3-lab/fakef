@@ -46,6 +46,24 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             line-height: 1.6;
+            position: relative;
+        }
+        /* Image overlay on background: sits over color so both show through */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: url('./fakeballs-bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        #root {
+            position: relative;
+            z-index: 1;
         }
         .bg-grid {
             background-image: 
@@ -96,10 +114,6 @@
             clip: rect(0, 0, 0, 0);
             white-space: nowrap;
             border-width: 0;
-        }
-        @keyframes welcome-cursor-blink {
-            0%, 50% { opacity: 1; }
-            51%, 100% { opacity: 0; }
         }
     </style>
 <script type="importmap">

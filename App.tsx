@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Layout } from './components/Layout';
 import { CommandPalette } from './components/nav/CommandPalette';
-import WelcomeTypingOverlay from './components/WelcomeTypingOverlay';
 import Home from './pages/Home';
 import Tools from './pages/Tools';
 import Ethics from './pages/Ethics';
@@ -57,7 +56,6 @@ const App: React.FC = () => {
 
   return (
     <Router>
-      <WelcomeTypingOverlay />
       <Routes>
         {/* Auth Gate Page */}
         <Route path="/auth/login" element={<Onboarding onComplete={handleAuthorize} />} />
