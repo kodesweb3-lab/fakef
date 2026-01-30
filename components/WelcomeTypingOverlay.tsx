@@ -9,11 +9,13 @@ const WELCOME_CONFIG = {
   mistake: ' — the clout panel',
   correct: ' — the attention lab',
 
-  // Timing (ms)
-  typeDelay: 70,
-  backspaceDelay: 28,
-  pauseAfterMistake: 220,
-  pauseBeforeFade: 450,
+  // Timing (ms) — tuned for readable "live typing" feel
+  initialDelay: 600,           // pause before first character (screen lands first)
+  typeDelay: 130,             // ms per character when typing (readable pace)
+  pauseAfterLine1: 400,        // brief beat after "FAKE Tek" before subtitle
+  pauseAfterMistake: 550,       // time to read "the clout panel" before backspace
+  backspaceDelay: 50,          // ms per char when deleting (quick but visible)
+  pauseBeforeFade: 800,         // time to read final line before fade
   fadeOutDuration: 500,
 
   // Reduced motion: show final text then fade
@@ -107,16 +109,26 @@ const WelcomeTypingOverlay: React.FC = () => {
       setShowCursor((c) => !c);
     }, 530);
 
-    const { line1, mistake, correct, typeDelay, backspaceDelay, pauseAfterMistake, pauseBeforeFade, fadeOutDuration } =
-      WELCOME_CONFIG;
+    const {
+      line1,
+      mistake,
+      correct,
+      initialDelay,
+      typeDelay,
+      pauseAfterLine1,
+      backspaceDelay,
+      pauseAfterMistake,
+      pauseBeforeFade,
+      fadeOutDuration,
+    } = WELCOME_CONFIG;
 
-    // Phase 1: type "FAKE Tek"
+    // Phase 1: type "FAKE Tek" (starts after initialDelay)
     let idx = 0;
     const typeLine1 = () => {
       if (idx >= line1.length) {
         setPhase('typing_mistake');
         idx = 0;
-        typeMistake();
+        schedule(() => typeMistake(), pauseAfterLine1);
         return;
       }
       setText(line1.slice(0, idx + 1));
@@ -184,7 +196,7 @@ const WelcomeTypingOverlay: React.FC = () => {
     };
 
     setPhase('typing1');
-    schedule(typeLine1, typeDelay);
+    schedule(typeLine1, initialDelay);
 
     return () => {
       clearAllTimers();
