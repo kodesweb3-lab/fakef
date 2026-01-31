@@ -1,13 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CornerHover } from '../components/ui/CornerHover';
+import { useHeroTyping } from '../hooks/useHeroTyping';
 
 const HomeDesktop: React.FC = () => {
   const isAuthorized = localStorage.getItem('fake_authorized') === 'true';
+  const { phase, typedLine1, typedLine2, cursorVisible, introComplete, fullLine1, fullLine2 } = useHeroTyping();
 
   return (
     <div className="pb-24">
-      {/* Hero Section — larger, relative dimensions; FAKE over logo, tek under */}
+      {/* Hero Section — logo → FAKE Tek → live typing → rest */}
       <section className="relative min-h-[85vh] sm:min-h-[90vh] flex flex-col items-center justify-center px-3 sm:px-4 md:px-6 overflow-hidden pt-16 sm:pt-20 md:pt-0 py-[clamp(2rem,6vw,4rem)]">
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-15">
           <div className="absolute top-1/4 left-1/4 w-64 sm:w-96 h-64 sm:h-96 bg-black/5 rounded-full blur-[100px] animate-subtle-glow" />
@@ -16,9 +18,8 @@ const HomeDesktop: React.FC = () => {
         
         <div className="relative z-10 max-w-5xl w-full text-center space-y-6 sm:space-y-10 md:space-y-14">
           <div className="space-y-4 sm:space-y-6 md:space-y-8">
-            {/* Logo block: FAKE over logo, tek under — all relative sizing */}
-            <div className="flex flex-col items-center justify-center px-2 space-y-2 sm:space-y-3">
-              {/* Container: logo behind, FAKE on top — relative dimensions */}
+            {/* 1. Logo — appears first */}
+            <div className={`flex flex-col items-center justify-center px-2 space-y-2 sm:space-y-3 transition-opacity duration-500 ${phase >= 0 ? 'opacity-100' : 'opacity-0'}`}>
               <div 
                 className="relative flex items-center justify-center"
                 style={{ width: 'min(90vw, clamp(12rem, 28vmin, 22rem))', height: 'min(90vw, clamp(12rem, 28vmin, 22rem))' }}
@@ -30,28 +31,38 @@ const HomeDesktop: React.FC = () => {
                   aria-hidden="true"
                 />
                 <h1 
-                  className="relative z-10 font-bold tracking-tight text-black font-display uppercase text-center leading-none"
+                  className={`relative z-10 font-bold tracking-tight text-black font-display uppercase text-center leading-none transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
                   style={{ fontSize: 'clamp(3rem, 12vmin, 10rem)' }}
                 >
                   FAKE
                 </h1>
               </div>
               <h2 
-                className="font-bold tracking-tight text-soft-slate font-display uppercase"
+                className={`font-bold tracking-tight text-soft-slate font-display uppercase transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
                 style={{ fontSize: 'clamp(1.25rem, 4vmin, 3.5rem)' }}
               >
                 Tek
               </h2>
             </div>
-            <div className="space-y-1.5 sm:space-y-2">
+            {/* 2. Live typing: Field Analysis... then An Alpha Tek... */}
+            <div className="space-y-1.5 sm:space-y-2 min-h-[3.5em] flex flex-col justify-center">
               <p className="text-soft-slate tracking-[0.15em] sm:tracking-[0.3em] md:tracking-[0.4em] uppercase font-light max-w-3xl mx-auto px-3 sm:px-4" style={{ fontSize: 'clamp(0.7rem, 2vmin, 1.5rem)' }}>
-                Field Analysis of Kinetic Engagement
+                {phase >= 3 ? fullLine1 : typedLine1}
+                {phase === 2 && (
+                  <span className={`inline-block w-0.5 h-[1em] align-baseline bg-soft-slate ml-0.5 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`} style={{ animation: 'none' }} aria-hidden />
+                )}
               </p>
-              <p className="font-mono text-soft-slate uppercase tracking-[0.3em] sm:tracking-[0.5em] md:tracking-[0.8em] opacity-60" style={{ fontSize: 'clamp(0.5rem, 1.2vmin, 0.65rem)' }}>An Alpha Tek Research Initiative</p>
+              <p className="font-mono text-soft-slate uppercase tracking-[0.3em] sm:tracking-[0.5em] md:tracking-[0.8em] opacity-60" style={{ fontSize: 'clamp(0.5rem, 1.2vmin, 0.65rem)' }}>
+                {phase >= 4 ? fullLine2 : typedLine2}
+                {phase === 3 && (
+                  <span className={`inline-block w-0.5 h-[0.9em] align-baseline bg-soft-slate ml-0.5 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`} aria-hidden />
+                )}
+              </p>
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-4 sm:gap-6 md:gap-10 pt-4 sm:pt-6 md:pt-10">
+          {/* 3. Rest of hero (quote, buttons) — after typing complete */}
+          <div className={`flex flex-col items-center gap-4 sm:gap-6 md:gap-10 pt-4 sm:pt-6 md:pt-10 transition-opacity duration-700 ${introComplete ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="h-px w-24 sm:w-32 md:w-48 bg-gradient-to-r from-transparent via-black/20 to-transparent" />
             <p className="text-black font-light tracking-tight max-w-4xl font-display leading-tight italic px-3 sm:px-4" style={{ fontSize: 'clamp(1rem, 3vmin, 3rem)' }}>
               "You cannot navigate systems you don't understand."
@@ -77,13 +88,15 @@ const HomeDesktop: React.FC = () => {
           </div>
         </div>
         
-        {/* Scroll Indicator */}
-        <div className="absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-20 hidden sm:flex">
+        {/* Scroll Indicator — after intro */}
+        <div className={`absolute bottom-8 sm:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 opacity-20 hidden sm:flex transition-opacity duration-500 ${introComplete ? 'opacity-20' : 'opacity-0 pointer-events-none'}`}>
             <span className="text-[10px] font-mono uppercase tracking-[0.4em]">Scroll</span>
             <div className="w-px h-12 bg-black" />
         </div>
       </section>
 
+      {/* Rest of website — fades in after intro */}
+      <div className={`transition-opacity duration-700 ${introComplete ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
       {/* Presentation Content */}
       <section className="max-w-7xl mx-auto px-3 sm:px-4 md:px-6 py-16 sm:py-24 md:py-48 border-t border-black/10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 sm:gap-16 md:gap-32 items-start">
@@ -171,6 +184,7 @@ const HomeDesktop: React.FC = () => {
           </CornerHover>
         </div>
       </section>
+      </div>
     </div>
   );
 };

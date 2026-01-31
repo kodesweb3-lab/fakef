@@ -1,19 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { CornerHover } from '../components/ui/CornerHover';
+import { useHeroTyping } from '../hooks/useHeroTyping';
 
 /**
- * Home Page Mobile View
- * 
- * Modern mobile-first landing page with smooth animations and better UI.
+ * Home Page Mobile View — logo → FAKE Tek → live typing → rest
  */
 
 const HomeMobile: React.FC = () => {
   const isAuthorized = localStorage.getItem('fake_authorized') === 'true';
+  const { phase, typedLine1, typedLine2, cursorVisible, introComplete, fullLine1, fullLine2 } = useHeroTyping();
 
   return (
     <div className="pb-8">
-      {/* Hero Section — bigger, relative; FAKE over logo, tek under */}
+      {/* Hero Section — logo first, then FAKE Tek, then live typing */}
       <section className="relative min-h-[70vh] sm:min-h-[75vh] flex flex-col items-center justify-center px-4 overflow-hidden -mx-4 mb-8 py-[clamp(1.5rem,5vw,3rem)]">
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-15">
           <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-black/5 rounded-full blur-[100px] animate-subtle-glow" />
@@ -22,8 +22,8 @@ const HomeMobile: React.FC = () => {
         
         <div className="relative z-10 w-full text-center space-y-6">
           <div className="space-y-4">
-            {/* Logo block: FAKE over logo, tek under — relative sizing */}
-            <div className="flex flex-col items-center justify-center space-y-2 sm:space-y-3">
+            {/* 1. Logo then FAKE Tek */}
+            <div className={`flex flex-col items-center justify-center space-y-2 sm:space-y-3 transition-opacity duration-500 ${phase >= 0 ? 'opacity-100' : 'opacity-0'}`}>
               <div 
                 className="relative flex items-center justify-center"
                 style={{ width: 'min(85vw, clamp(10rem, 35vmin, 16rem))', height: 'min(85vw, clamp(10rem, 35vmin, 16rem))' }}
@@ -35,30 +35,38 @@ const HomeMobile: React.FC = () => {
                   aria-hidden="true"
                 />
                 <h1 
-                  className="relative z-10 font-bold tracking-tight text-black font-display uppercase text-center leading-none"
+                  className={`relative z-10 font-bold tracking-tight text-black font-display uppercase text-center leading-none transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
                   style={{ fontSize: 'clamp(2.5rem, 14vmin, 5rem)' }}
                 >
                   FAKE
                 </h1>
               </div>
               <h2 
-                className="font-bold tracking-tight text-soft-slate font-display uppercase"
+                className={`font-bold tracking-tight text-soft-slate font-display uppercase transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
                 style={{ fontSize: 'clamp(1.25rem, 5vmin, 2.5rem)' }}
               >
                 Tek
               </h2>
             </div>
-            <div className="space-y-2">
+            {/* 2. Live typing */}
+            <div className="space-y-2 min-h-[3em] flex flex-col justify-center">
               <p className="text-soft-slate tracking-[0.2em] uppercase font-light" style={{ fontSize: 'clamp(0.75rem, 2.5vmin, 1rem)' }}>
-                Field Analysis of Kinetic Engagement
+                {phase >= 3 ? fullLine1 : typedLine1}
+                {phase === 2 && (
+                  <span className={`inline-block w-0.5 h-[1em] align-baseline bg-soft-slate ml-0.5 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`} aria-hidden />
+                )}
               </p>
               <p className="font-mono text-soft-slate uppercase tracking-[0.4em] opacity-60" style={{ fontSize: 'clamp(0.5rem, 1.5vmin, 0.6rem)' }}>
-                An Alpha Tek Research Initiative
+                {phase >= 4 ? fullLine2 : typedLine2}
+                {phase === 3 && (
+                  <span className={`inline-block w-0.5 h-[0.9em] align-baseline bg-soft-slate ml-0.5 ${cursorVisible ? 'opacity-100' : 'opacity-0'}`} aria-hidden />
+                )}
               </p>
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-3 pt-4">
+          {/* 3. Rest of hero — after typing */}
+          <div className={`flex flex-col items-center gap-3 pt-4 transition-opacity duration-700 ${introComplete ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
             <div className="h-px w-24 bg-gradient-to-r from-transparent via-black/20 to-transparent" />
             <p className="text-black font-light tracking-tight font-display leading-tight italic px-4" style={{ fontSize: 'clamp(1rem, 4vmin, 1.5rem)' }}>
               "You cannot navigate systems you don't understand."
@@ -85,6 +93,8 @@ const HomeMobile: React.FC = () => {
         </div>
       </section>
 
+      {/* Rest of page — after intro */}
+      <div className={`transition-opacity duration-700 ${introComplete ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
       {/* Quick Actions Cards */}
       <div className="space-y-4 mb-8">
         {isAuthorized ? (
@@ -212,6 +222,7 @@ const HomeMobile: React.FC = () => {
             Access Research Hub
           </Link>
         </CornerHover>
+      </div>
       </div>
     </div>
   );
