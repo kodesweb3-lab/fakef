@@ -37,17 +37,20 @@ const MobileHeaderWithContext: React.FC<{
 
   return (
     <header
-      className="sticky top-0 z-40 bg-midnight/98 backdrop-blur-xl border-b border-white/10 shadow-lg"
+      className="sticky top-0 z-40 bg-midnight/98 backdrop-blur-xl border-b border-black/10 shadow-lg"
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
-      <div className="flex items-center justify-between px-4 h-16">
-        <h1 className="text-lg font-bold text-white font-display uppercase tracking-wider">
-          {title || 'FAKE Tek'}
-        </h1>
+      <div className="flex items-center justify-between px-4 h-16 gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <img src="./fakeballswhite.svg" alt="" className="w-8 h-8 flex-shrink-0 object-contain opacity-90 invert" aria-hidden="true" />
+          <h1 className="text-lg font-bold text-black font-display uppercase tracking-wider truncate">
+            {title || 'FAKE Tek'}
+          </h1>
+        </div>
         {showSearch && (
           <button
             onClick={handleSearchClick}
-            className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-soft-slate hover:text-white transition-all active:scale-95"
+            className="p-2.5 rounded-full bg-black/5 hover:bg-black/10 text-soft-slate hover:text-black transition-all active:scale-95"
             aria-label="Search"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,17 +70,20 @@ const MobileHeader: React.FC<{
 }> = ({ title, showSearch, onSearchClick }) => {
   return (
     <header
-      className="sticky top-0 z-40 bg-midnight/98 backdrop-blur-xl border-b border-white/10 shadow-lg"
+      className="sticky top-0 z-40 bg-midnight/98 backdrop-blur-xl border-b border-black/10 shadow-lg"
       style={{ paddingTop: 'env(safe-area-inset-top)' }}
     >
-      <div className="flex items-center justify-between px-4 h-16">
-        <h1 className="text-lg font-bold text-white font-display uppercase tracking-wider">
-          {title || 'FAKE Tek'}
-        </h1>
+      <div className="flex items-center justify-between px-4 h-16 gap-3">
+        <div className="flex items-center gap-2.5 min-w-0">
+          <img src="./fakeballswhite.svg" alt="" className="w-8 h-8 flex-shrink-0 object-contain opacity-90 invert" aria-hidden="true" />
+          <h1 className="text-lg font-bold text-black font-display uppercase tracking-wider truncate">
+            {title || 'FAKE Tek'}
+          </h1>
+        </div>
         {showSearch && (
           <button
             onClick={onSearchClick}
-            className="p-2.5 rounded-full bg-white/5 hover:bg-white/10 text-soft-slate hover:text-white transition-all active:scale-95"
+            className="p-2.5 rounded-full bg-black/5 hover:bg-black/10 text-soft-slate hover:text-black transition-all active:scale-95"
             aria-label="Search"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,7 +124,7 @@ export const MobileAppLayout: React.FC<MobileAppLayoutProps> = ({
   };
 
   const content = (
-    <div className="min-h-screen bg-midnight selection:bg-electric-blue selection:text-midnight flex flex-col">
+    <div className="min-h-screen bg-white selection:bg-black selection:text-white flex flex-col">
       {showSearch ? (
         <MobileHeaderWithContext 
           title={getPageTitle()} 

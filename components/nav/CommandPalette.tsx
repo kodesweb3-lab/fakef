@@ -97,9 +97,9 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
         role="dialog"
         aria-modal="true"
         aria-label="Command palette"
-        className="fixed left-1/2 top-[20%] -translate-x-1/2 z-[111] w-full max-w-md bg-midnight/98 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden"
+        className="fixed left-1/2 top-[20%] -translate-x-1/2 z-[111] w-full max-w-md bg-white/98 backdrop-blur-xl border border-black/10 rounded-xl shadow-2xl overflow-hidden"
       >
-        <div className="flex items-center gap-2 px-3 py-2 border-b border-white/10">
+        <div className="flex items-center gap-2 px-3 py-2 border-b border-black/15">
           <Search className="w-4 h-4 text-soft-slate flex-shrink-0" size={16} />
           <input
             ref={inputRef}
@@ -108,10 +108,10 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
             onChange={(e) => setQuery(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Search routes..."
-            className="flex-1 bg-transparent text-white placeholder-soft-slate/50 text-sm font-mono outline-none py-2"
+            className="flex-1 bg-transparent text-black placeholder-soft-slate/50 text-sm font-mono outline-none py-2"
             aria-label="Search"
           />
-          <kbd className="text-[10px] font-mono text-soft-slate/60 px-1.5 py-0.5 rounded border border-white/10">
+          <kbd className="text-[10px] font-mono text-soft-slate/60 px-1.5 py-0.5 rounded border border-black/10">
             ESC
           </kbd>
         </div>
@@ -137,8 +137,8 @@ export const CommandPalette: React.FC<CommandPaletteProps> = ({
                 onMouseEnter={() => setSelectedIndex(i)}
                 className={`
                   w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors outline-none
-                  focus-visible:bg-white/5
-                  ${i === selectedIndex ? 'bg-electric-blue/10 text-electric-blue' : 'text-soft-slate hover:bg-white/5 hover:text-white'}
+                  focus-visible:bg-black/5
+                  ${i === selectedIndex ? 'bg-black/10 text-black' : 'text-soft-slate hover:bg-black/5 hover:text-black'}
                 `}
               >
                 <span className="text-xs font-mono uppercase tracking-wider truncate">

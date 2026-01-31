@@ -4,7 +4,7 @@ const AboutMobile: React.FC = () => {
   return (
     <div className="px-4 py-6 space-y-8">
       <header className="space-y-4 border-l border-[#00FFA3] pl-4 py-2">
-        <h1 className="text-2xl font-bold tracking-tight text-white uppercase">The Mission</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-black uppercase">The Mission</h1>
         <p className="text-[#A9B0C2] text-sm font-light leading-relaxed">
           FAKE (Field Analysis of Kinetic Engagement) is a research platform designed to deconstruct digital attention systems and surface the hidden mechanics of participation.
         </p>
@@ -33,13 +33,13 @@ const AboutMobile: React.FC = () => {
         </div>
         
         <div className="space-y-4">
-          <h2 className="text-xl font-bold uppercase tracking-wider text-white">Our Framework</h2>
+          <h2 className="text-xl font-bold uppercase tracking-wider text-black">Our Framework</h2>
           <p className="text-[#A9B0C2] leading-relaxed text-sm font-light">
             We do not sell influence. We do not automate outcomes. FAKE provides the high-fidelity lenses required to observe the truth of the system, supporting human-led strategic coordination and rigorous academic inquiry.
           </p>
           
-          <div className="p-6 glass-card border border-white/10 text-center italic space-y-3">
-            <p className="text-white text-sm font-light">
+          <div className="p-6 glass-card border border-black/15 text-center italic space-y-3">
+            <p className="text-black text-sm font-light">
               "We provide the instruments. You provide the intent. Responsibility always."
             </p>
             <div className="h-px w-8 bg-[#00FFA3] mx-auto opacity-40" />

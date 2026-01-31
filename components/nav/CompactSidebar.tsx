@@ -78,7 +78,7 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
   return (
     <>
       <aside
-        className="fixed left-0 top-0 h-screen flex flex-col z-50 bg-midnight/95 backdrop-blur-xl border-r border-white/5 transition-[width] duration-200 ease-out overflow-hidden"
+        className="fixed left-0 top-0 h-screen flex flex-col z-50 bg-midnight/95 backdrop-blur-xl border-r border-black/10 transition-[width] duration-200 ease-out overflow-hidden"
         style={{ width }}
         onMouseEnter={() => setHovered(true)}
         onMouseLeave={() => setHovered(false)}
@@ -91,13 +91,14 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
             className="flex items-center gap-3 min-w-0 flex-1"
             aria-label="FAKE Tek Home"
           >
-            <div className="w-9 h-9 flex-shrink-0 border border-electric-blue/40 flex items-center justify-center rounded transition-colors hover:bg-electric-blue hover:border-electric-blue group">
-              <span className="font-bold text-[10px] text-white tracking-tighter group-hover:text-midnight">
-                FK
-              </span>
-            </div>
+            <img
+              src="./fakeballswhite.svg"
+              alt=""
+              className="w-9 h-9 flex-shrink-0 object-contain opacity-90 group-hover:opacity-100 transition-opacity invert"
+              aria-hidden="true"
+            />
             {isHoverOrExpanded && (
-              <span className="font-bold text-lg tracking-[0.2em] text-white font-display whitespace-nowrap overflow-hidden">
+              <span className="font-bold text-lg tracking-[0.2em] text-black font-display whitespace-nowrap overflow-hidden">
                 FAKE
               </span>
             )}
@@ -105,7 +106,7 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
           <button
             type="button"
             onClick={() => setExpanded((e) => !e)}
-            className="p-1.5 rounded-lg text-soft-slate hover:text-white hover:bg-white/5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-electric-blue flex-shrink-0"
+            className="p-1.5 rounded-lg text-soft-slate hover:text-black hover:bg-black/5 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-black flex-shrink-0"
             aria-label={expanded ? 'Collapse sidebar' : 'Expand sidebar'}
           >
             {expanded || isHoverOrExpanded ? (
@@ -129,8 +130,8 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
                   to={item.path}
                   className={`
                     flex items-center gap-3 h-11 px-3 rounded-lg transition-colors outline-none
-                    focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-offset-2 focus-visible:ring-offset-midnight
-                    ${active ? 'sidebar-item-active bg-electric-blue/10 text-electric-blue' : 'text-soft-slate hover:bg-white/5 hover:text-white'}
+                    focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                    ${active ? 'sidebar-item-active bg-black/10 text-black' : 'text-soft-slate hover:bg-black/5 hover:text-black'}
                   `}
                   aria-current={active ? 'page' : undefined}
                   aria-label={item.label}
@@ -167,8 +168,8 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
             onClick={() => setMoreOpen(true)}
             className={`
               w-full flex items-center gap-3 h-11 px-3 rounded-lg transition-colors outline-none
-              focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-offset-2 focus-visible:ring-offset-midnight
-              text-soft-slate hover:bg-white/5 hover:text-white
+              focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white
+              text-soft-slate hover:bg-black/5 hover:text-black
             `}
             aria-label="More links"
             aria-expanded={moreOpen}
@@ -180,13 +181,13 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
             )}
           </button>
           {isHoverOrExpanded && (
-            <div className="px-3 pt-2 border-t border-white/5">
-              <span className="text-[8px] font-mono text-white/30 uppercase tracking-widest block">
+            <div className="px-3 pt-2 border-t border-black/10">
+              <span className="text-[8px] font-mono text-black/30 uppercase tracking-widest block">
                 Parent
               </span>
               <a
                 href="#"
-                className="text-[9px] font-bold text-electric-blue hover:text-white transition-colors tracking-wider"
+                className="text-[9px] font-bold text-soft-slate hover:text-black transition-colors tracking-wider"
               >
                 ALPHA TEK
               </a>
@@ -214,8 +215,8 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
                 onClick={() => handleMoreNav(item.path)}
                 className={`
                   w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition-colors
-                  outline-none focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-offset-2 focus-visible:ring-offset-midnight
-                  ${active ? 'bg-electric-blue/10 text-electric-blue' : 'text-soft-slate hover:bg-white/5 hover:text-white'}
+                  outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                  ${active ? 'bg-black/10 text-black' : 'text-soft-slate hover:bg-black/5 hover:text-black'}
                 `}
                 aria-current={active ? 'page' : undefined}
               >
@@ -229,7 +230,7 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
             <button
               type="button"
               onClick={handleLogout}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-red-400/80 hover:bg-red-500/10 hover:text-red-400 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left text-soft-slate hover:bg-black/10 hover:text-black transition-colors outline-none focus-visible:ring-2 focus-visible:ring-black"
               aria-label="Disconnect"
             >
               <LogOut className="w-4 h-4 flex-shrink-0" size={16} />
@@ -242,7 +243,7 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
                 setMoreOpen(false);
                 navigate('/auth/login');
               }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left bg-electric-blue/10 text-electric-blue hover:bg-electric-blue hover:text-midnight transition-colors outline-none focus-visible:ring-2 focus-visible:ring-electric-blue"
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left bg-black/10 text-black hover:bg-black hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-black"
               aria-label="Authorize"
             >
               <span className="text-xs font-mono uppercase tracking-wider">Authorize</span>

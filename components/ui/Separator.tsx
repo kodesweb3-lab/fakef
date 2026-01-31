@@ -13,8 +13,8 @@ export const Separator: React.FC<SeparatorProps> = ({
     role="separator"
     className={
       orientation === 'horizontal'
-        ? `h-px w-full bg-white/10 ${className}`
-        : `w-px h-full bg-white/10 ${className}`
+        ? `h-px w-full bg-black/10 ${className}`
+        : `w-px h-full bg-black/10 ${className}`
     }
   />
 );

@@ -24,8 +24,8 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
     <div className="px-4 py-6 space-y-6">
       {/* Account Info */}
       <div className="space-y-4">
-        <div className="p-4 bg-white/5 border border-white/10 space-y-2">
-          <h3 className="text-xs font-mono uppercase tracking-wider text-white">Account Status</h3>
+        <div className="p-4 bg-black/5 border border-black/15 space-y-2">
+          <h3 className="text-xs font-mono uppercase tracking-wider text-black">Account Status</h3>
           <div className="flex items-center gap-2">
             <div className={`w-2 h-2 rounded-full ${isAuthorized ? 'bg-electric-blue' : 'bg-soft-slate/40'}`} />
             <span className="text-xs font-mono text-soft-slate uppercase">
@@ -44,10 +44,10 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
       <div className="space-y-2">
         <Link
           to="/responsible-use"
-          className="block p-4 bg-white/5 border border-white/10 hover:border-electric-blue/20 transition-all"
+          className="block p-4 bg-black/5 border border-black/15 hover:border-electric-blue/20 transition-all"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase tracking-wider text-white">
+            <span className="text-xs font-mono uppercase tracking-wider text-black">
               Responsible Use
             </span>
             <svg className="w-4 h-4 text-soft-slate" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,10 +58,10 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
 
         <Link
           to="/research-ethics"
-          className="block p-4 bg-white/5 border border-white/10 hover:border-electric-blue/20 transition-all"
+          className="block p-4 bg-black/5 border border-black/15 hover:border-electric-blue/20 transition-all"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase tracking-wider text-white">
+            <span className="text-xs font-mono uppercase tracking-wider text-black">
               Research Ethics
             </span>
             <svg className="w-4 h-4 text-soft-slate" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -72,10 +72,10 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
 
         <Link
           to="/terms"
-          className="block p-4 bg-white/5 border border-white/10 hover:border-electric-blue/20 transition-all"
+          className="block p-4 bg-black/5 border border-black/15 hover:border-electric-blue/20 transition-all"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase tracking-wider text-white">
+            <span className="text-xs font-mono uppercase tracking-wider text-black">
               Terms of Service
             </span>
             <svg className="w-4 h-4 text-soft-slate" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,10 +86,10 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
 
         <Link
           to="/about"
-          className="block p-4 bg-white/5 border border-white/10 hover:border-electric-blue/20 transition-all"
+          className="block p-4 bg-black/5 border border-black/15 hover:border-electric-blue/20 transition-all"
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-mono uppercase tracking-wider text-white">
+            <span className="text-xs font-mono uppercase tracking-wider text-black">
               Mission
             </span>
             <svg className="w-4 h-4 text-soft-slate" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,9 +100,9 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
       </div>
 
       {/* Parent Entity */}
-      <div className="p-4 bg-white/5 border border-white/10 space-y-2">
-        <span className="text-[9px] font-mono text-white/30 uppercase tracking-wider">Parent Entity</span>
-        <a href="#" className="text-xs font-bold text-electric-blue hover:text-white transition-colors tracking-wider uppercase block">
+      <div className="p-4 bg-black/5 border border-black/15 space-y-2">
+        <span className="text-[9px] font-mono text-black/50 uppercase tracking-wider">Parent Entity</span>
+        <a href="#" className="text-xs font-bold text-electric-blue hover:text-black transition-colors tracking-wider uppercase block">
           ALPHA TEK
         </a>
       </div>
@@ -125,7 +125,7 @@ const Account: React.FC<AccountProps> = ({ isAuthorized, onLogout }) => {
       )}
 
       {/* Disclaimer */}
-      <div className="pt-6 border-t border-white/10">
+      <div className="pt-6 border-t border-black/15">
         <p className="text-[10px] font-mono text-soft-slate/60 leading-relaxed text-center">
           FAKE Tek is a research instrument. No sensitive data is stored or shared.
         </p>

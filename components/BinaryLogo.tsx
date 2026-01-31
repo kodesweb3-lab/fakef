@@ -90,7 +90,7 @@ const BinaryLogo: React.FC<BinaryLogoProps> = ({
             ? 'text-signal-purple' 
             : isTek 
             ? 'text-signal-purple/90' 
-            : 'text-white';
+            : 'text-black';
           
           return (
             <span 

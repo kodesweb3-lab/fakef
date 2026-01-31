@@ -54,7 +54,7 @@ export const Sheet: React.FC<SheetProps> = ({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? 'sheet-title' : undefined}
-        className={`fixed z-[101] bg-midnight/98 backdrop-blur-xl border border-white/10 shadow-2xl flex flex-col ${sideClasses[side]} ${className}`}
+        className={`fixed z-[101] bg-white/98 backdrop-blur-xl border border-black/10 shadow-2xl flex flex-col ${sideClasses[side]} ${className}`}
         style={
           side === 'bottom'
             ? { paddingBottom: 'env(safe-area-inset-bottom)' }
@@ -62,14 +62,14 @@ export const Sheet: React.FC<SheetProps> = ({
         }
       >
         {title && (
-          <div className="flex items-center justify-between px-4 py-3 border-b border-white/10">
-            <h2 id="sheet-title" className="text-sm font-mono uppercase tracking-wider text-white">
+          <div className="flex items-center justify-between px-4 py-3 border-b border-black/10">
+            <h2 id="sheet-title" className="text-sm font-mono uppercase tracking-wider text-black">
               {title}
             </h2>
             <button
               type="button"
               onClick={() => onOpenChange(false)}
-              className="p-2 rounded-lg text-soft-slate hover:text-white hover:bg-white/5 transition-colors"
+              className="p-2 rounded-lg text-soft-slate hover:text-black hover:bg-black/5 transition-colors"
               aria-label="Close"
             >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -4,7 +4,7 @@ const AllowedUseMobile: React.FC = () => {
   return (
     <div className="px-4 py-6 space-y-6">
       <header className="space-y-3">
-        <h1 className="text-2xl font-bold tracking-tight text-white">Allowed Use</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-black">Allowed Use</h1>
         <p className="text-[#A9B0C2] text-sm font-light leading-relaxed">
           FAKE is designed for rigorous observation and the testing of attention-based hypotheses.
         </p>
@@ -32,7 +32,7 @@ const AllowedUseMobile: React.FC = () => {
           <div key={i} className="p-6 glass border border-white/5 flex gap-4 items-start">
             <div className="text-xl font-mono text-[#4F8CFF]/40">0{i+1}</div>
             <div className="space-y-2">
-              <h3 className="font-bold text-white uppercase tracking-wider text-xs">{item.title}</h3>
+              <h3 className="font-bold text-black uppercase tracking-wider text-xs">{item.title}</h3>
               <p className="text-xs text-[#A9B0C2] leading-relaxed">{item.desc}</p>
             </div>
           </div>

@@ -80,7 +80,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       {visible && (
         <span
           role="tooltip"
-          className={`absolute z-[200] px-2.5 py-1.5 text-xs font-mono text-midnight bg-muted-white border border-white/20 rounded shadow-lg whitespace-nowrap pointer-events-none ${positionClasses[side]}`}
+          className={`absolute z-[200] px-2.5 py-1.5 text-xs font-mono text-white bg-black border border-white/20 rounded shadow-[0_4px_12px_rgba(0,0,0,0.3)] whitespace-nowrap pointer-events-none ${positionClasses[side]}`}
           style={{ marginLeft: side === 'right' ? 8 : undefined, marginRight: side === 'left' ? 8 : undefined }}
         >
           {content}

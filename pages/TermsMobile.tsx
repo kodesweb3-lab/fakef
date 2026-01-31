@@ -4,7 +4,7 @@ const TermsMobile: React.FC = () => {
   return (
     <div className="px-4 py-6 space-y-8">
       <header className="space-y-4">
-        <h1 className="text-2xl font-bold tracking-tight text-white font-display">Terms of Use</h1>
+        <h1 className="text-2xl font-bold tracking-tight text-black font-display">Terms of Use</h1>
         <p className="text-xs uppercase tracking-wider text-soft-slate font-mono">Revision 3.1 | Division of Conduct</p>
       </header>
 
@@ -54,11 +54,11 @@ const TermsMobile: React.FC = () => {
           </div>
         </section>
 
-        <footer className="pt-8 border-t border-white/5 text-center">
+        <footer className="pt-8 border-t border-black/15 text-center">
             <p className="italic text-soft-slate text-sm font-light">
             "Don't insult us by pretending you're here for any other reason than the truth of the system."
             </p>
-            <div className="mt-6 text-[9px] font-mono text-white/20 uppercase tracking-wider">
+            <div className="mt-6 text-[9px] font-mono text-black/50 uppercase tracking-wider">
                 SIG_TERM_PROTOCOL_ACTIVE
             </div>
         </footer>

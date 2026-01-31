@@ -64,7 +64,7 @@ const Notes: React.FC = () => {
               className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all whitespace-nowrap ${
                 !filterTag
                   ? 'border-electric-blue bg-electric-blue/10 text-electric-blue'
-                  : 'border-white/10 text-soft-slate hover:border-white/20'
+                  : 'border-black/15 text-soft-slate hover:border-black/25'
               }`}
             >
               All
@@ -76,7 +76,7 @@ const Notes: React.FC = () => {
                 className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all whitespace-nowrap ${
                   filterTag === tag
                     ? 'border-electric-blue bg-electric-blue/10 text-electric-blue'
-                    : 'border-white/10 text-soft-slate hover:border-white/20'
+                    : 'border-black/15 text-soft-slate hover:border-black/25'
                 }`}
               >
                 #{tag}
@@ -94,20 +94,20 @@ const Notes: React.FC = () => {
             value={newNoteTitle}
             onChange={(e) => setNewNoteTitle(e.target.value)}
             placeholder="Title (optional)"
-            className="w-full px-3 py-2 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
+            className="w-full px-3 py-2 bg-white/5 border border-white/10 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
           />
           <textarea
             value={newNoteContent}
             onChange={(e) => setNewNoteContent(e.target.value)}
             placeholder="Note content..."
-            className="w-full h-32 px-3 py-2 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all resize-none"
+            className="w-full h-32 px-3 py-2 bg-white/5 border border-white/10 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all resize-none"
           />
           <input
             type="text"
             value={newNoteTags}
             onChange={(e) => setNewNoteTags(e.target.value)}
             placeholder="#tag1 #tag2"
-            className="w-full px-3 py-2 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
+            className="w-full px-3 py-2 bg-white/5 border border-white/10 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
           />
           <div className="flex gap-2">
             <button
@@ -123,7 +123,7 @@ const Notes: React.FC = () => {
                 setNewNoteContent('');
                 setNewNoteTags('');
               }}
-              className="flex-1 py-2 border border-white/10 text-white hover:bg-white/5 transition-all text-xs font-mono uppercase tracking-wider"
+              className="flex-1 py-2 border border-black/15 text-black hover:bg-black/5 transition-all text-xs font-mono uppercase tracking-wider"
             >
               Cancel
             </button>
@@ -156,7 +156,7 @@ const Notes: React.FC = () => {
               className="p-4 bg-white/5 border border-white/10 space-y-3"
             >
               <div className="flex items-start justify-between">
-                <h3 className="text-sm font-bold text-white font-display flex-1">
+                <h3 className="text-sm font-bold text-black font-display flex-1">
                   {note.title}
                 </h3>
                 <span className="text-[9px] font-mono text-soft-slate/60 ml-2">
@@ -187,7 +187,7 @@ const Notes: React.FC = () => {
       )}
 
       {/* Disclaimer */}
-      <div className="pt-6 border-t border-white/10">
+      <div className="pt-6 border-t border-black/15">
         <p className="text-[10px] font-mono text-soft-slate/60 leading-relaxed text-center">
           Notes are stored locally. No data is synced or shared.
         </p>

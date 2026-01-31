@@ -15,7 +15,7 @@ export const DesktopLayout: React.FC<{
   onLogout: () => void;
 }> = ({ children, isAuthorized, onLogout }) => {
   return (
-    <div className="min-h-screen flex bg-midnight selection:bg-electric-blue selection:text-midnight">
+    <div className="min-h-screen flex bg-white selection:bg-black selection:text-white">
       <CompactSidebar isAuthorized={isAuthorized} onLogout={onLogout} />
       <main
         className="flex-1 min-h-screen relative w-full overflow-x-hidden transition-[margin] duration-200 ease-out"

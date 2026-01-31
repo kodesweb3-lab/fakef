@@ -14,12 +14,12 @@
         theme: {
           extend: {
             colors: {
-              midnight: '#0B0E1A',
-              violet: '#2A1E44',
-              'electric-blue': '#4F8CFF',
-              'signal-purple': '#6B5CFF',
-              'soft-slate': '#A9B0C2',
-              'muted-white': '#EDEFF6',
+              midnight: '#ffffff',
+              violet: '#f5f5f5',
+              'electric-blue': '#000000',
+              'signal-purple': '#000000',
+              'soft-slate': '#525252',
+              'muted-white': '#0a0a0a',
             },
             fontFamily: {
               sans: ['Inter', 'IBM Plex Sans', 'sans-serif'],
@@ -32,23 +32,24 @@
     </script>
     <style>
         :root {
-            --bg-color: #0B0E1A;
-            --accent-blue: #4F8CFF;
-            --accent-purple: #6B5CFF;
-            --card-bg: rgba(11, 14, 26, 0.8);
-            --border-color: rgba(79, 140, 255, 0.1);
+            --bg-color: #ffffff;
+            --accent: #000000;
+            --card-bg: #f5f5f5;
+            --card-border: rgba(0, 0, 0, 0.14);
+            --border-color: rgba(0, 0, 0, 0.12);
+            --shadow-grey: rgba(0, 0, 0, 0.1);
         }
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
-            color: #EDEFF6;
+            color: #0a0a0a;
             margin: 0;
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             line-height: 1.6;
             position: relative;
         }
-        /* Image overlay on background: sits over color so both show through */
+        /* Image overlay on background: subtle darkening */
         body::before {
             content: '';
             position: fixed;
@@ -58,7 +59,20 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            opacity: 0.4;
+            opacity: 0.2;
+            pointer-events: none;
+        }
+        /* Modular background: repeating logo pattern (inverted for light bg), very subtle */
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background-image: url('./fakeballswhite.svg');
+            background-repeat: repeat;
+            background-size: 100px 100px;
+            opacity: 0.06;
+            filter: invert(1);
             pointer-events: none;
         }
         #root {
@@ -67,22 +81,23 @@
         }
         .bg-grid {
             background-image: 
-                linear-gradient(to right, rgba(79, 140, 255, 0.03) 1px, transparent 1px),
-                linear-gradient(to bottom, rgba(79, 140, 255, 0.03) 1px, transparent 1px);
+                linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px);
             background-size: 40px 40px;
         }
-        .glass-card {
+        .glass-card, .glass {
             background: var(--card-bg);
             backdrop-filter: blur(24px);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--card-border);
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
         }
         .blue-glow {
-            box-shadow: 0 0 30px rgba(79, 140, 255, 0.05);
+            box-shadow: 0 4px 24px var(--shadow-grey);
         }
         .sidebar-item-active {
-            background: rgba(79, 140, 255, 0.05);
-            border-left: 2px solid var(--accent-blue);
-            color: var(--accent-blue);
+            background: rgba(0, 0, 0, 0.06);
+            border-left: 2px solid #000000;
+            color: #000000;
         }
         ::-webkit-scrollbar {
             width: 4px;
@@ -91,11 +106,11 @@
             background: var(--bg-color);
         }
         ::-webkit-scrollbar-thumb {
-            background: #1E2336;
+            background: #d4d4d4;
             border-radius: 2px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: var(--accent-blue);
+            background: #a3a3a3;
         }
         .animate-subtle-glow {
             animation: subtleGlow 4s ease-in-out infinite alternate;
@@ -104,6 +119,8 @@
             from { opacity: 0.3; filter: blur(40px); }
             to { opacity: 0.6; filter: blur(60px); }
         }
+        /* Corner hover: staggered draw effect */
+        .corner-line { transition: transform 0.28s ease-out, opacity 0.28s ease-out; }
         .sr-only {
             position: absolute;
             width: 1px;

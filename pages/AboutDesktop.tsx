@@ -4,7 +4,7 @@ const AboutDesktop: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-16 animate-in fade-in duration-700">
       <header className="space-y-6 border-l border-[#00FFA3] pl-12 py-4">
-        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-white uppercase">The Mission</h1>
+        <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-black uppercase">The Mission</h1>
         <p className="text-[#A9B0C2] text-xl font-light leading-relaxed max-w-3xl">
           FAKE (Field Analysis of Kinetic Engagement) is a research platform designed to deconstruct digital attention systems and surface the hidden mechanics of participation.
         </p>
@@ -33,13 +33,13 @@ const AboutDesktop: React.FC = () => {
         </div>
         
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold uppercase tracking-widest text-white">Our Framework</h2>
+          <h2 className="text-2xl font-bold uppercase tracking-widest text-black">Our Framework</h2>
           <p className="text-[#A9B0C2] leading-relaxed text-lg font-light">
             We do not sell influence. We do not automate outcomes. FAKE provides the high-fidelity lenses required to observe the truth of the system, supporting human-led strategic coordination and rigorous academic inquiry.
           </p>
           
           <div className="p-10 glass-card border border-white/10 text-center italic space-y-4">
-            <p className="text-white text-lg font-light">
+            <p className="text-black text-lg font-light">
               "We provide the instruments. You provide the intent. Responsibility always."
             </p>
             <div className="h-px w-12 bg-[#00FFA3] mx-auto opacity-40" />

@@ -57,7 +57,7 @@ const Scan: React.FC = () => {
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           placeholder="https://twitter.com/... or @handle or reference ID"
-          className="w-full h-24 px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all resize-none"
+          className="w-full h-24 px-4 py-3 bg-black/5 border border-black/15 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all resize-none"
         />
       </div>
 
@@ -74,7 +74,7 @@ const Scan: React.FC = () => {
               className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider border transition-all ${
                 selectedDomain === domain
                   ? 'border-electric-blue bg-electric-blue/10 text-electric-blue'
-                  : 'border-white/10 text-soft-slate hover:border-white/20'
+                  : 'border-black/15 text-soft-slate hover:border-black/25'
               }`}
             >
               {domain}
@@ -93,7 +93,7 @@ const Scan: React.FC = () => {
           value={tags}
           onChange={(e) => setTags(e.target.value)}
           placeholder="#tag1 #tag2"
-          className="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
+          className="w-full px-4 py-3 bg-black/5 border border-black/15 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
         />
       </div>
 
@@ -106,7 +106,7 @@ const Scan: React.FC = () => {
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
           placeholder="Research observations..."
-          className="w-full h-32 px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all resize-none"
+          className="w-full h-32 px-4 py-3 bg-black/5 border border-black/15 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all resize-none"
         />
       </div>
 
@@ -121,8 +121,8 @@ const Scan: React.FC = () => {
 
       {/* Saved Items */}
       {savedItems.length > 0 && (
-        <div className="space-y-4 pt-6 border-t border-white/10">
-          <h3 className="text-xs font-mono uppercase tracking-wider text-white">Saved Items</h3>
+        <div className="space-y-4 pt-6 border-t border-black/15">
+          <h3 className="text-xs font-mono uppercase tracking-wider text-black">Saved Items</h3>
           <div className="space-y-3">
             {savedItems.map((item) => (
               <div
@@ -131,7 +131,7 @@ const Scan: React.FC = () => {
               >
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-mono text-white truncate">{item.url}</p>
+                    <p className="text-xs font-mono text-black truncate">{item.url}</p>
                     {item.domain !== 'Unspecified' && (
                       <p className="text-[10px] font-mono text-electric-blue uppercase mt-1">
                         {item.domain}
@@ -147,7 +147,7 @@ const Scan: React.FC = () => {
                     {item.tags.split(' ').filter(t => t).map((tag, idx) => (
                       <span
                         key={idx}
-                        className="px-2 py-0.5 bg-white/5 text-[9px] font-mono text-soft-slate/60"
+                        className="px-2 py-0.5 bg-black/5 text-[9px] font-mono text-soft-slate/60"
                       >
                         {tag}
                       </span>
@@ -178,7 +178,7 @@ const Scan: React.FC = () => {
       )}
 
       {/* Disclaimer */}
-      <div className="pt-6 border-t border-white/10">
+      <div className="pt-6 border-t border-black/15">
         <p className="text-[10px] font-mono text-soft-slate/60 leading-relaxed text-center">
           FAKE does not automate delivery or guarantee visibility metrics. Research items are stored locally.
         </p>

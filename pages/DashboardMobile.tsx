@@ -25,9 +25,9 @@ const DashboardMobile: React.FC = () => {
   return (
     <div className="px-4 py-6 space-y-6">
       {/* Domain Pulse */}
-      <div className="bg-white/5 border border-white/10">
-        <div className="p-4 border-b border-white/10 flex justify-between items-center bg-white/5">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-white">Domain Pulse</h3>
+      <div className="bg-black/5 border border-black/15">
+        <div className="p-4 border-b border-black/15 flex justify-between items-center bg-black/5">
+          <h3 className="text-xs font-bold uppercase tracking-wider text-black">Domain Pulse</h3>
           <span className="text-[9px] font-mono text-electric-blue/60">SECTOR_STATUS</span>
         </div>
         <div className="p-4 space-y-2">
@@ -40,14 +40,14 @@ const DashboardMobile: React.FC = () => {
           ].map((domain, i) => (
             <div
               key={i}
-              className="flex justify-between items-center p-3 hover:bg-white/5 transition-colors border border-transparent hover:border-white/5"
+              className="flex justify-between items-center p-3 hover:bg-black/5 transition-colors border border-transparent hover:border-black/10"
             >
               <div className="flex items-center gap-3">
-                <div className="text-xs font-bold text-white font-display">{domain.name}</div>
+                <div className="text-xs font-bold text-black font-display">{domain.name}</div>
               </div>
               <div className="flex items-center gap-2">
                 <span className="text-[9px] font-mono text-soft-slate uppercase">{domain.status}</span>
-                <div className={`w-2 h-2 border ${domain.pinned ? 'bg-electric-blue border-electric-blue' : 'border-white/20'}`} />
+                <div className={`w-2 h-2 border ${domain.pinned ? 'bg-electric-blue border-electric-blue' : 'border-black/20'}`} />
               </div>
             </div>
           ))}
@@ -55,9 +55,9 @@ const DashboardMobile: React.FC = () => {
       </div>
 
       {/* Signal Scan - Primary CTA */}
-      <div className="bg-white/5 border border-white/10 p-4 space-y-4">
+      <div className="bg-black/5 border border-black/15 p-4 space-y-4">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-white">Signal Scan</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-black">Signal Scan</h3>
           <span className="text-[9px] font-mono text-electric-blue uppercase">INPUT_REQUIRED</span>
         </div>
         <div className="space-y-3">
@@ -74,7 +74,7 @@ const DashboardMobile: React.FC = () => {
             />
           </div>
           {mockResearch.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-8 opacity-20 border border-dashed border-white/10 space-y-2 rounded-sm bg-white/[0.02]">
+            <div className="flex flex-col items-center justify-center py-8 opacity-20 border border-dashed border-black/15 space-y-2 rounded-sm bg-black/[0.03]">
               <span className="text-[9px] font-mono uppercase tracking-wider text-center px-4">
                 No research items currently tracked
               </span>
@@ -92,15 +92,15 @@ const DashboardMobile: React.FC = () => {
         </div>
         <button
           onClick={handleSaveObservation}
-          className="w-full py-3 bg-white/5 border border-white/10 hover:border-electric-blue/20 transition-all text-[10px] font-mono text-soft-slate uppercase tracking-wider"
+          className="w-full py-3 bg-black/5 border border-black/15 hover:border-electric-blue/20 transition-all text-[10px] font-mono text-soft-slate uppercase tracking-wider"
         >
           Save_Observation_Brief
         </button>
       </div>
 
       {/* Research Briefs */}
-      <div className="bg-white/5 border border-white/10 p-4 space-y-4">
-        <h3 className="text-xs font-bold uppercase tracking-wider text-white">Research Briefs</h3>
+      <div className="bg-black/5 border border-black/15 p-4 space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-black">Research Briefs</h3>
         <div className="space-y-2">
           {[
             "Velocity vs Quality",
@@ -123,9 +123,9 @@ const DashboardMobile: React.FC = () => {
       </div>
 
       {/* Notes - Recent */}
-      <div className="bg-white/5 border border-white/10 p-4 space-y-3">
+      <div className="bg-black/5 border border-black/15 p-4 space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="text-xs font-bold uppercase tracking-wider text-white">Notes</h3>
+          <h3 className="text-xs font-bold uppercase tracking-wider text-black">Notes</h3>
           <Link to="/notes" className="text-[9px] font-mono text-electric-blue/60 uppercase">
             View All
           </Link>
@@ -144,7 +144,7 @@ const DashboardMobile: React.FC = () => {
       </div>
 
       {/* Disclaimer */}
-      <div className="pt-4 border-t border-white/10">
+      <div className="pt-4 border-t border-black/15">
         <p className="text-[10px] font-mono text-soft-slate/60 leading-relaxed text-center">
           FAKE instruments are for observation and data literacy. We do not automate engagement, inflate metrics, or guarantee outcomes.
         </p>

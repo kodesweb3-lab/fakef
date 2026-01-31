@@ -75,7 +75,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
   return (
     <>
       <nav
-        className="fixed bottom-0 left-0 right-0 z-50 bg-midnight/98 backdrop-blur-xl border-t border-white/10 shadow-2xl"
+        className="fixed bottom-0 left-0 right-0 z-50 bg-midnight/98 backdrop-blur-xl border-t border-black/15 shadow-2xl"
         style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}
         aria-label="Bottom navigation"
       >
@@ -90,8 +90,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
                 onClick={() => handleTabClick(item.path, item.requiresAuth)}
                 className={`
                   flex flex-col items-center justify-center flex-1 h-full min-w-0 rounded-lg transition-colors
-                  outline-none focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-inset
-                  ${active ? 'text-electric-blue' : 'text-soft-slate'}
+                  outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-inset
+                  ${active ? 'text-black' : 'text-soft-slate'}
                   active:scale-95
                 `}
                 aria-label={item.label}
@@ -111,10 +111,10 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
               type="button"
               onClick={handleCenterClick}
               className="
-                w-14 h-14 -mt-6 rounded-2xl bg-electric-blue text-midnight flex items-center justify-center
-                shadow-[0_0_24px_rgba(79,140,255,0.4)] border-2 border-electric-blue
-                hover:bg-white hover:border-white transition-all active:scale-95
-                outline-none focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-offset-2 focus-visible:ring-offset-midnight
+                w-14 h-14 -mt-6 rounded-2xl bg-black text-white flex items-center justify-center
+                shadow-[0_4px_24px_rgba(0,0,0,0.25)] border-2 border-black
+                hover:bg-soft-slate hover:border-soft-slate transition-all active:scale-95
+                outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white
               "
               aria-label={MOBILE_CENTER_ACTION.label}
             >
@@ -138,8 +138,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
                 }
                 className={`
                   flex flex-col items-center justify-center flex-1 h-full min-w-0 rounded-lg transition-colors
-                  outline-none focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-inset
-                  ${active ? 'text-electric-blue' : 'text-soft-slate'}
+                  outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-inset
+                  ${active ? 'text-black' : 'text-soft-slate'}
                   active:scale-95
                 `}
                 aria-label={item.label}
@@ -183,8 +183,8 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
                 onClick={() => handleAccountSheetNav(item.path)}
                 className={`
                   w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left transition-colors
-                  outline-none focus-visible:ring-2 focus-visible:ring-electric-blue focus-visible:ring-offset-2 focus-visible:ring-offset-midnight
-                  ${active ? 'bg-electric-blue/10 text-electric-blue' : 'text-soft-slate hover:bg-white/5 hover:text-white'}
+                  outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 focus-visible:ring-offset-white
+                  ${active ? 'bg-black/10 text-black' : 'text-soft-slate hover:bg-black/5 hover:text-black'}
                 `}
                 aria-current={active ? 'page' : undefined}
               >
@@ -193,11 +193,11 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
               </button>
             );
           })}
-          <div className="pt-3 mt-3 border-t border-white/10">
+          <div className="pt-3 mt-3 border-t border-black/15">
             <button
               type="button"
               onClick={() => handleAccountSheetNav('/account')}
-              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-soft-slate hover:bg-white/5 hover:text-white transition-colors outline-none focus-visible:ring-2 focus-visible:ring-electric-blue"
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-soft-slate hover:bg-black/5 hover:text-black transition-colors outline-none focus-visible:ring-2 focus-visible:ring-black"
             >
               <User className="w-5 h-5 flex-shrink-0" size={20} />
               <span className="text-sm font-medium">Account settings</span>
@@ -206,7 +206,7 @@ export const MobileBottomNav: React.FC<MobileBottomNavProps> = ({ isAuthorized, 
               <button
                 type="button"
                 onClick={handleLogout}
-                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-red-400/80 hover:bg-red-500/10 hover:text-red-400 transition-colors outline-none focus-visible:ring-2 focus-visible:ring-red-500"
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-left text-soft-slate hover:bg-black/10 hover:text-black transition-colors outline-none focus-visible:ring-2 focus-visible:ring-black"
                 aria-label="Log out"
               >
                 <LogOut className="w-5 h-5 flex-shrink-0" size={20} />

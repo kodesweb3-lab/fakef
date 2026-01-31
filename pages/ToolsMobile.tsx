@@ -90,14 +90,14 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
     <div className="space-y-4">
       {/* Search Bar - Sticky */}
       {showSearch && (
-        <div className="sticky top-14 z-30 bg-midnight/95 backdrop-blur-lg border-b border-white/10 pb-4 px-4 pt-4 -mx-4">
+        <div className="sticky top-14 z-30 bg-midnight/95 backdrop-blur-lg border-b border-black/15 pb-4 px-4 pt-4 -mx-4">
           <div className="relative">
             <input
               type="text"
               placeholder="Search platforms or services..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 text-white placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
+              className="w-full px-4 py-3 bg-black/5 border border-black/15 text-black placeholder-soft-slate/50 font-mono text-sm focus:outline-none focus:border-electric-blue/50 transition-all"
               autoFocus
             />
             <button
@@ -125,7 +125,7 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
               className={`px-3 py-1.5 text-xs font-mono uppercase tracking-wider transition-all border whitespace-nowrap ${
                 selectedCategory === cat.value
                   ? 'border-electric-blue bg-electric-blue/10 text-electric-blue'
-                  : 'border-white/10 text-soft-slate hover:border-white/20'
+                  : 'border-black/15 text-soft-slate hover:border-black/25'
               }`}
             >
               {cat.label}
@@ -166,7 +166,7 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
                   >
                     <div className="flex-1 space-y-1 min-w-0">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="text-sm font-bold text-white font-display break-words">
+                        <h3 className="text-sm font-bold text-black font-display break-words">
                           {platform.name}
                         </h3>
                         {platform.launchStatus === 'day1' && (
@@ -196,7 +196,7 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
 
                   {/* Platform Content */}
                   {isPlatformExpanded && (
-                    <div className="border-t border-white/10 p-4 space-y-4">
+                    <div className="border-t border-black/15 p-4 space-y-4">
                       {platform.capabilities.map((capability, capIdx) => {
                         const capabilityId = `${platform.id}-${capIdx}`;
                         const isCapabilityExpanded = expandedCapabilities.has(capabilityId);
@@ -232,7 +232,7 @@ const ToolsMobile: React.FC<ToolsMobileProps> = ({ onSearchToggle }) => {
                                 {capability.variants.map((variant, varIdx) => (
                                   <div
                                     key={varIdx}
-                                    className="flex items-start gap-2 py-1 text-xs text-soft-slate hover:text-white/80 transition-colors"
+                                    className="flex items-start gap-2 py-1 text-xs text-soft-slate hover:text-black/80 transition-colors"
                                   >
                                     <div className="w-0.5 h-0.5 bg-signal-purple/40 mt-1.5 flex-shrink-0" />
                                     <span className="leading-relaxed">{variant.name}</span>

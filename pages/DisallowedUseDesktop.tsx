@@ -4,7 +4,7 @@ const DisallowedUseDesktop: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto px-6 py-24 space-y-16">
       <header className="space-y-6">
-        <h1 className="text-4xl font-bold tracking-tight text-white">Disallowed Use</h1>
+        <h1 className="text-4xl font-bold tracking-tight text-black">Disallowed Use</h1>
         <p className="text-[#A9B0C2] text-lg font-light leading-relaxed">
           The following activities represent a misuse of FAKE instruments and are strictly prohibited.
         </p>
@@ -36,7 +36,7 @@ const DisallowedUseDesktop: React.FC = () => {
         ))}
       </section>
 
-      <div className="p-8 glass border border-white/5 text-center italic text-[#A9B0C2] text-sm">
+      <div className="p-8 glass border border-black/15 text-center italic text-soft-slate text-sm">
         "Misuse of a lens does not change the nature of the light, but it does change the viewer. FAKE is for clarity, not distortion."
       </div>
     </div>
