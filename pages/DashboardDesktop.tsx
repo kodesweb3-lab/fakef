@@ -1,186 +1,444 @@
-import React, { useState } from 'react';
-import { CornerHover } from '../components/ui/CornerHover';
+import React, { useMemo, useState } from 'react';
+
+type Network = {
+  id: string;
+  label: string;
+  glyph: string;
+};
+
+type Service = {
+  id: number;
+  network: string;
+  title: string;
+  min: number;
+  max: number;
+  startTime: string;
+  speed: string;
+  avgTime: string;
+  pricePerThousand: number;
+};
+
+type Order = {
+  id: number;
+  service: string;
+  quantity: number;
+  link: string;
+  charge: number;
+};
+
+const networks: Network[] = [
+  { id: 'instagram', label: 'Instagram', glyph: 'IG' },
+  { id: 'facebook', label: 'Facebook', glyph: 'FB' },
+  { id: 'youtube', label: 'YouTube', glyph: 'YT' },
+  { id: 'x', label: 'X (Twitter)', glyph: 'X' },
+  { id: 'spotify', label: 'Spotify', glyph: 'SP' },
+  { id: 'tiktok', label: 'TikTok', glyph: 'TT' },
+  { id: 'linkedin', label: 'LinkedIn', glyph: 'IN' },
+  { id: 'telegram', label: 'Telegram', glyph: 'TG' },
+  { id: 'traffic', label: 'Website Traffic', glyph: 'WT' },
+  { id: 'reviews', label: 'Reviews', glyph: 'RV' },
+  { id: 'other', label: 'Others', glyph: 'OT' },
+  { id: 'all', label: 'Everything', glyph: 'ALL' },
+];
+
+const catalog: Service[] = [
+  {
+    id: 10110,
+    network: 'traffic',
+    title: 'CoinMarketCap Followers [Refill: 30D]',
+    min: 50,
+    max: 1000000,
+    startTime: '0 - 24 Hours',
+    speed: 'Up to 50K / D',
+    avgTime: '1 hour 21 minutes',
+    pricePerThousand: 1.2375,
+  },
+  {
+    id: 32140,
+    network: 'instagram',
+    title: 'Instagram Profile Visits [High Retention]',
+    min: 100,
+    max: 500000,
+    startTime: '0 - 12 Hours',
+    speed: 'Up to 20K / D',
+    avgTime: '2 hours 8 minutes',
+    pricePerThousand: 2.83,
+  },
+  {
+    id: 42088,
+    network: 'youtube',
+    title: 'YouTube Likes [Global Mix]',
+    min: 25,
+    max: 300000,
+    startTime: '0 - 6 Hours',
+    speed: 'Up to 15K / D',
+    avgTime: '58 minutes',
+    pricePerThousand: 3.12,
+  },
+  {
+    id: 56302,
+    network: 'x',
+    title: 'X Reposts [Real Profiles]',
+    min: 20,
+    max: 120000,
+    startTime: '0 - 3 Hours',
+    speed: 'Up to 9K / D',
+    avgTime: '44 minutes',
+    pricePerThousand: 4.44,
+  },
+];
 
 const DashboardDesktop: React.FC = () => {
-  const [researchInput, setResearchInput] = useState('');
-  const [mockResearch, setMockResearch] = useState<any[]>([]);
+  const [activeNetwork, setActiveNetwork] = useState<string>('all');
+  const [serviceSearch, setServiceSearch] = useState('');
+  const [orderSearch, setOrderSearch] = useState('');
+  const [selectedServiceId, setSelectedServiceId] = useState<number>(catalog[0].id);
+  const [link, setLink] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [dripFeed, setDripFeed] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
 
-  const handleSaveObservation = () => {
-    if (!researchInput.trim()) return;
-    setMockResearch(prev => [...prev, { id: Date.now(), signal: researchInput, timestamp: new Date().toISOString() }]);
-    setResearchInput('');
+  const filteredServices = useMemo(() => {
+    return catalog.filter((service) => {
+      const networkMatch = activeNetwork === 'all' || service.network === activeNetwork;
+      const query = serviceSearch.trim().toLowerCase();
+      const titleMatch =
+        query.length === 0 || service.title.toLowerCase().includes(query) || String(service.id).includes(query);
+      return networkMatch && titleMatch;
+    });
+  }, [activeNetwork, serviceSearch]);
+
+  const selectedService = useMemo(() => {
+    if (filteredServices.length === 0) {
+      return null;
+    }
+    return filteredServices.find((item) => item.id === selectedServiceId) ?? filteredServices[0];
+  }, [filteredServices, selectedServiceId]);
+
+  const listedServices = useMemo(() => {
+    const query = orderSearch.trim().toLowerCase();
+    return filteredServices.filter(
+      (service) =>
+        query.length === 0 ||
+        service.title.toLowerCase().includes(query) ||
+        String(service.id).includes(query),
+    );
+  }, [filteredServices, orderSearch]);
+
+  const parsedQuantity = Number(quantity);
+  const quantityValue = Number.isFinite(parsedQuantity) ? parsedQuantity : 0;
+  const isQuantityValid =
+    selectedService !== null && quantityValue >= selectedService.min && quantityValue <= selectedService.max;
+  const charge =
+    selectedService !== null ? Number(((quantityValue / 1000) * selectedService.pricePerThousand).toFixed(4)) : 0;
+
+  const handleSubmitOrder = () => {
+    if (!selectedService || !link.trim() || !isQuantityValid) {
+      return;
+    }
+
+    setOrders((current) => [
+      {
+        id: Date.now(),
+        service: `${selectedService.id} - ${selectedService.title}`,
+        quantity: quantityValue,
+        link: link.trim(),
+        charge,
+      },
+      ...current.slice(0, 2),
+    ]);
+
+    setLink('');
+    setQuantity('');
+    setDripFeed(false);
   };
 
   return (
-    <div className="space-y-10 animate-in fade-in duration-500 pb-20">
-      <header className="flex justify-between items-end border-b border-black/5 pb-8">
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight text-black font-display">Active Research Hub</h1>
-          <p className="text-[10px] font-mono text-black tracking-widest uppercase flex items-center gap-2">
-            <span className="w-1.5 h-1.5 bg-electric-blue rounded-full animate-pulse" />
-            Observational Node Active // AUTH_0x71...C44a
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <div className="flex flex-col items-end gap-1">
-            <span className="text-[9px] font-mono text-black/20 uppercase tracking-widest">Protocol Status</span>
-            <CornerHover className="inline-block" cornerSize="sm">
-              <div className="flex items-center gap-2 px-4 py-2 glass-card">
-                <span className="text-[10px] font-mono text-soft-slate uppercase">FK_AXIOM_V5</span>
+    <div className="space-y-6 pb-16 animate-in fade-in duration-500">
+      <header className="glass-card rounded-xl border-black/10 p-6 lg:p-8 blue-glow">
+        <div className="flex flex-col gap-6 xl:flex-row xl:items-start xl:justify-between">
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <h1 className="text-3xl font-semibold tracking-tight text-black font-display">Research Operations</h1>
+              <p className="text-[10px] font-mono text-black tracking-widest uppercase flex items-center gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-black animate-pulse" />
+                Node active // monitoring workspace only
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <div className="px-4 py-3 rounded-lg bg-black/[0.03] border border-black/10 min-w-[190px]">
+                <p className="text-[9px] uppercase tracking-widest text-soft-slate font-mono">Welcome</p>
+                <p className="text-sm text-black font-semibold">dhsinats</p>
               </div>
-            </CornerHover>
+              <div className="px-4 py-3 rounded-lg bg-black/[0.03] border border-black/10 min-w-[190px]">
+                <p className="text-[9px] uppercase tracking-widest text-soft-slate font-mono">Total Orders</p>
+                <p className="text-sm text-black font-semibold">53</p>
+              </div>
+              <div className="px-4 py-3 rounded-lg bg-black/[0.03] border border-black/10 min-w-[190px]">
+                <p className="text-[9px] uppercase tracking-widest text-soft-slate font-mono">Current Balance</p>
+                <p className="text-sm text-black font-semibold">$0.095</p>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full xl:max-w-xl space-y-3">
+            <div className="relative">
+              <input
+                type="search"
+                value={serviceSearch}
+                onChange={(event) => setServiceSearch(event.target.value)}
+                placeholder="Search service catalog"
+                className="w-full rounded-full bg-white/80 border border-black/15 px-5 py-3 text-sm text-black placeholder:text-black/40 focus:outline-none focus:border-black/40 transition-colors"
+              />
+            </div>
+            <div className="flex justify-end gap-2">
+              {['AL', 'NT', 'TG', '$', 'EX'].map((action) => (
+                <button
+                  key={action}
+                  type="button"
+                  className="h-9 min-w-9 rounded-full border border-black/15 bg-white/70 text-[10px] font-mono text-soft-slate hover:text-black hover:border-black/40 transition-colors px-3"
+                >
+                  {action}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="grid grid-cols-12 gap-8">
-        {/* Card 1: Domain Pulse */}
-        <div className="col-span-12 lg:col-span-4 space-y-8">
-          <CornerHover className="block h-full overflow-visible" cornerSize="lg">
-          <div className="glass-card flex flex-col h-full border-black/5 overflow-visible">
-            <div className="p-6 border-b border-black/5 flex justify-between items-center bg-black/5">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-black">Domain Pulse</h3>
-              <span className="text-[9px] font-mono text-black/60">SECTOR_STATUS</span>
+      <section className="glass-card rounded-xl border-black/10 overflow-hidden">
+        <div className="px-5 py-4 border-b border-black/10 flex items-center justify-between">
+          <h2 className="text-sm uppercase tracking-widest text-black font-display">Choose a Social Network</h2>
+          <button className="text-[10px] font-mono uppercase tracking-widest text-soft-slate hover:text-black transition-colors">
+            Hide Filter
+          </button>
+        </div>
+        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+          {networks.map((network) => {
+            const isActive = network.id === activeNetwork;
+            return (
+              <button
+                key={network.id}
+                type="button"
+                onClick={() => setActiveNetwork(network.id)}
+                className={`text-left p-4 rounded-lg border transition-all ${
+                  isActive ? 'border-black/50 bg-black/10' : 'border-black/10 bg-black/[0.03] hover:border-black/20'
+                }`}
+              >
+                <span
+                  className={`inline-flex h-7 w-7 items-center justify-center rounded-md border text-[9px] font-mono mb-3 ${
+                    isActive ? 'border-black/60 text-black' : 'border-black/20 text-soft-slate'
+                  }`}
+                >
+                  {network.glyph}
+                </span>
+                <p className={`text-sm font-semibold ${isActive ? 'text-black' : 'text-soft-slate'}`}>{network.label}</p>
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      <div className="grid grid-cols-12 gap-6">
+        <section className="col-span-12 xl:col-span-8 glass-card rounded-xl border-black/10 p-5 sm:p-6 space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <button className="py-3 text-xs uppercase tracking-widest rounded-lg bg-black text-white font-semibold">
+              New Order
+            </button>
+            <button className="py-3 text-xs uppercase tracking-widest rounded-lg bg-black/[0.03] border border-black/10 text-soft-slate">
+              My Favorite
+            </button>
+            <button className="py-3 text-xs uppercase tracking-widest rounded-lg bg-black/[0.03] border border-black/10 text-soft-slate">
+              Auto Subscription
+            </button>
+          </div>
+
+          <div className="relative">
+            <input
+              type="search"
+              value={serviceSearch}
+              onChange={(event) => setServiceSearch(event.target.value)}
+              placeholder="Search services by name or ID"
+              className="w-full rounded-lg bg-white border border-black/15 px-4 py-3 text-sm text-black placeholder:text-black/35 focus:outline-none focus:border-black/40 transition-colors"
+            />
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-2">
+              <label htmlFor="service" className="text-[11px] uppercase tracking-widest font-mono text-soft-slate">
+                Service
+              </label>
+              <select
+                id="service"
+                value={selectedService?.id ?? ''}
+                onChange={(event) => setSelectedServiceId(Number(event.target.value))}
+                className="w-full rounded-lg bg-white border border-black/15 px-4 py-3 text-sm text-black focus:outline-none focus:border-black/40 transition-colors"
+              >
+                {filteredServices.length > 0 ? (
+                  filteredServices.map((service) => (
+                    <option key={service.id} value={service.id}>
+                      {service.id} - {service.title}
+                    </option>
+                  ))
+                ) : (
+                  <option value="" disabled>
+                    No service available for this filter
+                  </option>
+                )}
+              </select>
             </div>
-            <div className="flex-grow overflow-auto p-4 space-y-2">
-              {[
-                { name: 'Video Platforms', status: 'Stable', pinned: true },
-                { name: 'Acoustic DSPs', status: 'Optimal', pinned: false },
-                { name: 'Messaging Hubs', status: 'Stable', pinned: true },
-                { name: 'Professional Silos', status: 'Optimal', pinned: false },
-                { name: 'Web Traffic Nodes', status: 'Active', pinned: false },
-              ].map((domain, i) => (
-                <div key={i} className="flex justify-between items-center p-4 hover:bg-black/5 transition-colors rounded-sm cursor-pointer group border border-transparent hover:border-black/5">
-                  <div className="flex items-center gap-4">
-                    <div className="text-xs font-bold text-black group-hover:text-black transition-colors font-display">{domain.name}</div>
+
+            <div className="space-y-2">
+              <label htmlFor="link" className="text-[11px] uppercase tracking-widest font-mono text-soft-slate">
+                Link
+              </label>
+              <input
+                id="link"
+                type="text"
+                value={link}
+                onChange={(event) => setLink(event.target.value)}
+                placeholder="https://example.com/profile"
+                disabled={!selectedService}
+                className="w-full rounded-lg bg-white border border-black/15 px-4 py-3 text-sm text-black placeholder:text-black/35 focus:outline-none focus:border-black/40 transition-colors"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label htmlFor="quantity" className="text-[11px] uppercase tracking-widest font-mono text-soft-slate">
+                Quantity
+              </label>
+              <input
+                id="quantity"
+                type="number"
+                value={quantity}
+                onChange={(event) => setQuantity(event.target.value)}
+                placeholder={selectedService ? `${selectedService.min}` : ''}
+                disabled={!selectedService}
+                className="w-full rounded-lg bg-white border border-black/15 px-4 py-3 text-sm text-black placeholder:text-black/35 focus:outline-none focus:border-black/40 transition-colors"
+              />
+              <p className={`text-[11px] ${quantity.length === 0 || isQuantityValid ? 'text-soft-slate' : 'text-red-500'}`}>
+                {selectedService
+                  ? `Min: ${selectedService.min.toLocaleString()} - Max: ${selectedService.max.toLocaleString()}`
+                  : 'Choose a category with available services'}
+              </p>
+            </div>
+
+            <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+              <input
+                type="checkbox"
+                checked={dripFeed}
+                onChange={(event) => setDripFeed(event.target.checked)}
+                disabled={!selectedService}
+                className="h-4 w-4 rounded border-black/20 bg-white text-black focus:ring-black/20"
+              />
+              <span className="text-sm text-soft-slate">Drip-feed</span>
+            </label>
+
+            <div className="space-y-2">
+              <p className="text-[11px] uppercase tracking-widest font-mono text-soft-slate">Average Time</p>
+              <div className="w-full rounded-lg bg-white border border-black/15 px-4 py-3 text-sm text-black">
+                {selectedService ? selectedService.avgTime : '-'}
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <p className="text-[11px] uppercase tracking-widest font-mono text-soft-slate">Charge</p>
+              <div className="w-full rounded-lg bg-white border border-black/15 px-4 py-3 text-sm text-black">
+                ${charge.toFixed(4)}
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={handleSubmitOrder}
+              disabled={!selectedService}
+              className="w-full rounded-lg py-3 bg-black text-white font-semibold uppercase tracking-wider hover:bg-black/85 transition-colors disabled:opacity-40"
+            >
+              Submit
+            </button>
+          </div>
+
+          {orders.length > 0 && (
+            <div className="pt-3 border-t border-black/10 space-y-2">
+              <p className="text-[11px] uppercase tracking-widest font-mono text-soft-slate">Queued in this session</p>
+              {orders.map((order) => (
+                <div
+                  key={order.id}
+                  className="rounded-lg border border-black/10 bg-black/[0.03] p-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2"
+                >
+                  <div>
+                    <p className="text-sm text-black">{order.service}</p>
+                    <p className="text-[11px] text-soft-slate truncate">{order.link}</p>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-[8px] font-mono text-soft-slate uppercase tracking-tighter">{domain.status}</span>
-                    <div className={`w-3 h-3 border ${domain.pinned ? 'bg-electric-blue border-black' : 'border-black/20'}`} />
-                  </div>
+                  <p className="text-xs font-mono text-black">
+                    QTY {order.quantity.toLocaleString()} | ${order.charge.toFixed(4)}
+                  </p>
                 </div>
               ))}
             </div>
-          </div>
-          </CornerHover>
-        </div>
+          )}
+        </section>
 
-        <div className="col-span-12 lg:col-span-8 space-y-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Card 2: Signal Scan */}
-            <CornerHover className="overflow-visible" cornerSize="lg">
-            <div className="glass-card p-8 space-y-8 border-black/5 overflow-visible">
-              <div className="flex justify-between items-center">
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-black">Signal Scan</h3>
-                <span className="text-[9px] font-mono text-black uppercase">INPUT_REQUIRED</span>
-              </div>
-              <div className="space-y-4">
-                <p className="text-[11px] text-soft-slate font-light leading-relaxed">Input signal for research observation. FAKE does not automate amplification or bypass safeguards.</p>
-                <div className="relative">
-                  <input 
-                    type="text" 
-                    value={researchInput}
-                    onChange={(e) => setResearchInput(e.target.value)}
-                    placeholder="URL / Handle / Reference..." 
-                    className="w-full bg-black/5 border border-black/10 p-4 pr-12 text-xs font-mono text-black placeholder:text-black/10 focus:outline-none focus:border-black/40 transition-all"
-                  />
-                </div>
-                {mockResearch.length === 0 ? (
-                  <div className="flex flex-col items-center justify-center py-10 opacity-20 border border-dashed border-black/10 space-y-2 rounded-sm bg-black/[0.02]">
-                    <span className="text-[9px] font-mono uppercase tracking-widest text-center px-6">No research items currently tracked</span>
-                  </div>
-                ) : (
-                  <div className="max-h-32 overflow-y-auto space-y-2">
-                    {mockResearch.map((item) => (
-                      <div key={item.id} className="p-3 bg-black/5 text-[10px] font-mono text-soft-slate flex justify-between">
-                        <span className="truncate max-w-[150px]">{item.signal}</span>
-                        <span className="text-black/20">SAVED</span>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-              <CornerHover className="block" cornerSize="sm">
-                <button 
-                  onClick={handleSaveObservation}
-                  className="block w-full py-4 bg-black/5 border border-black/10 hover:border-black/20 transition-all text-[10px] font-mono text-soft-slate uppercase tracking-widest"
+        <aside className="col-span-12 xl:col-span-4 glass-card rounded-xl border-black/10 overflow-hidden">
+          <div className="px-5 py-4 border-b border-black/10 flex flex-col gap-3">
+            <div className="flex items-center justify-between">
+              <h2 className="text-lg font-display font-semibold text-black uppercase tracking-wide">New Order</h2>
+            </div>
+            <input
+              type="search"
+              value={orderSearch}
+              onChange={(event) => setOrderSearch(event.target.value)}
+              placeholder="Search for your orders"
+              className="w-full rounded-lg bg-white border border-black/15 px-4 py-2.5 text-sm text-black placeholder:text-black/35 focus:outline-none focus:border-black/40 transition-colors"
+            />
+          </div>
+          <div className="p-4 space-y-3 max-h-[620px] overflow-y-auto">
+            {listedServices.length > 0 ? (
+              listedServices.map((service) => (
+                <button
+                  key={service.id}
+                  type="button"
+                  onClick={() => setSelectedServiceId(service.id)}
+                  className={`w-full text-left rounded-lg border p-4 transition-all ${
+                    selectedService?.id === service.id
+                      ? 'border-black/45 bg-black/10'
+                      : 'border-black/10 bg-black/[0.03] hover:border-black/20'
+                  }`}
                 >
-                  Save_Observation_Brief
-                </button>
-              </CornerHover>
-            </div>
-            </CornerHover>
-
-            {/* Card 3: Research Briefs */}
-            <CornerHover className="overflow-visible" cornerSize="lg">
-            <div className="glass-card p-8 space-y-8 border-black/5 overflow-visible">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-black">Research Briefs</h3>
-              <div className="space-y-4">
-                {[
-                  "Velocity vs Quality",
-                  "Legitimacy Signals",
-                  "Participation Clustering",
-                  "Why content disappears"
-                ].map((brief, idx) => (
-                  <div key={idx} className="p-4 bg-black/5 border border-black/5 rounded-sm flex justify-between items-center group hover:border-black/20 transition-all cursor-pointer">
-                    <h4 className="text-[10px] font-bold text-black uppercase tracking-widest">{brief}</h4>
-                    <svg className="w-3 h-3 text-black/20 group-hover:text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" /></svg>
+                  <p className="text-black text-sm font-semibold leading-snug">
+                    {service.id} - {service.title}
+                  </p>
+                  <div className="mt-3 grid grid-cols-2 gap-3 text-[11px] font-mono uppercase tracking-widest">
+                    <div>
+                      <p className="text-soft-slate/80">Start</p>
+                      <p className="text-black">{service.startTime}</p>
+                    </div>
+                    <div>
+                      <p className="text-soft-slate/80">Speed</p>
+                      <p className="text-black">{service.speed}</p>
+                    </div>
+                    <div>
+                      <p className="text-soft-slate/80">Range</p>
+                      <p className="text-soft-slate">
+                        {service.min.toLocaleString()} - {service.max.toLocaleString()}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-soft-slate/80">Price / 1K</p>
+                      <p className="text-soft-slate">${service.pricePerThousand.toFixed(4)}</p>
+                    </div>
                   </div>
-                ))}
+                </button>
+              ))
+            ) : (
+              <div className="rounded-lg border border-dashed border-black/15 bg-black/[0.02] py-10 px-4 text-center">
+                <p className="text-sm text-soft-slate">No services match this filter.</p>
               </div>
-            </div>
-            </CornerHover>
+            )}
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* Card 4: Reference Dataset */}
-            <CornerHover className="overflow-visible" cornerSize="lg">
-            <div className="glass-card p-8 min-h-[250px] flex flex-col justify-between border-black/5 overflow-visible">
-              <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-black">Reference Upload</h3>
-              <div className="flex-grow flex flex-col justify-center items-center space-y-4 text-center">
-                <div className="w-16 h-16 border border-black/5 flex items-center justify-center opacity-20">
-                  <svg className="w-6 h-6 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>
-                </div>
-                <div className="space-y-1">
-                  <p className="text-[10px] font-mono text-black/40">No dataset loaded</p>
-                  <p className="text-[9px] font-mono text-soft-slate uppercase tracking-widest">User-provided CSV datasets only</p>
-                </div>
-              </div>
-              <button disabled className="w-full py-3 bg-black/5 border border-black/5 text-[9px] font-mono uppercase text-soft-slate opacity-50 cursor-not-allowed">
-                Upload_Protocol_Log (Disabled in Demo)
-              </button>
-            </div>
-            </CornerHover>
-
-            {/* Card 5: Insight Notes */}
-            <CornerHover className="overflow-visible" cornerSize="lg">
-            <div className="glass-card p-8 min-h-[250px] flex flex-col border-black/5 overflow-visible">
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-black">Insight Notes</h3>
-                <span className="text-[9px] font-mono text-black/60">LOCAL_STATE_ONLY</span>
-              </div>
-              <textarea 
-                placeholder="Capture system observations..." 
-                className="flex-grow bg-transparent text-xs text-soft-slate font-light leading-relaxed focus:outline-none resize-none placeholder:text-black/5"
-              />
-              <div className="flex flex-wrap gap-2 pt-4 border-t border-black/5">
-                <span className="px-2 py-1 bg-black/5 text-[8px] font-mono text-soft-slate/60 rounded-sm">#OBSERVATION</span>
-                <span className="px-2 py-1 bg-black/5 text-[8px] font-mono text-soft-slate/60 rounded-sm">#MOCK_DATA</span>
-              </div>
-            </div>
-            </CornerHover>
-          </div>
-        </div>
+        </aside>
       </div>
-
-      <CornerHover className="block overflow-visible max-w-4xl mx-auto" cornerSize="lg">
-      <section className="p-10 border border-black/10 bg-black/[0.02] text-center space-y-4 overflow-visible">
-        <p className="text-[11px] font-mono text-soft-slate uppercase tracking-widest">Research Integrity Statement</p>
-        <p className="text-xs text-soft-slate/60 italic leading-relaxed">
-          FAKE instruments are for observation and data literacy. We do not automate engagement, inflate metrics, or guarantee outcomes. No sensitive research data is stored in this demo node.
-        </p>
-      </section>
-      </CornerHover>
     </div>
   );
 };
