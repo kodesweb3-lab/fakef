@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CornerHover } from '../components/ui/CornerHover';
 import { useHeroTyping } from '../hooks/useHeroTyping';
+import { WordmarkLogo } from '../components/WordmarkLogo';
 
 const HomeDesktop: React.FC = () => {
   const isAuthorized = localStorage.getItem('fake_authorized') === 'true';
@@ -20,29 +21,9 @@ const HomeDesktop: React.FC = () => {
           <div className="space-y-4 sm:space-y-6 md:space-y-8">
             {/* 1. Logo — appears first */}
             <div className={`flex flex-col items-center justify-center px-2 space-y-2 sm:space-y-3 transition-opacity duration-500 ${phase >= 0 ? 'opacity-100' : 'opacity-0'}`}>
-              <div 
-                className="relative flex items-center justify-center"
-                style={{ width: 'min(90vw, clamp(12rem, 28vmin, 22rem))', height: 'min(90vw, clamp(12rem, 28vmin, 22rem))' }}
-              >
-                <img
-                  src="./fakeballswhite.svg"
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-contain opacity-[0.12] sm:opacity-[0.14] invert select-none pointer-events-none"
-                  aria-hidden="true"
-                />
-                <h1 
-                  className={`relative z-10 font-bold tracking-tight text-black font-display uppercase text-center leading-none transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ fontSize: 'clamp(3rem, 12vmin, 10rem)' }}
-                >
-                  FAKE
-                </h1>
+              <div className={`transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+                <WordmarkLogo size="xl" stacked />
               </div>
-              <h2 
-                className={`font-bold tracking-tight text-soft-slate font-display uppercase transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
-                style={{ fontSize: 'clamp(1.25rem, 4vmin, 3.5rem)' }}
-              >
-                Tek
-              </h2>
             </div>
             {/* 2. Live typing: Field Analysis... then An Alpha Tek... */}
             <div className="space-y-1.5 sm:space-y-2 min-h-[3.5em] flex flex-col justify-center">

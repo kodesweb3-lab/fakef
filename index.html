@@ -49,30 +49,30 @@
             line-height: 1.6;
             position: relative;
         }
-        /* Image overlay on background: subtle darkening */
+        /* Layered ambient gradients */
         body::before {
             content: '';
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image: url('./fakeballs-bg.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            opacity: 0.2;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(0, 0, 0, 0.12) 0%, rgba(0, 0, 0, 0) 45%),
+                radial-gradient(circle at 85% 25%, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 42%),
+                radial-gradient(circle at 45% 85%, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0) 45%);
+            opacity: 0.9;
             pointer-events: none;
         }
-        /* Modular background: repeating logo pattern (inverted for light bg), very subtle */
+        /* Subtle vector-like texture */
         body::after {
             content: '';
             position: fixed;
             inset: 0;
             z-index: 0;
-            background-image: url('./fakeballswhite.svg');
-            background-repeat: repeat;
-            background-size: 100px 100px;
-            opacity: 0.06;
-            filter: invert(1);
+            background-image:
+                linear-gradient(90deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(0deg, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 28px 28px;
+            opacity: 0.35;
             pointer-events: none;
         }
         #root {

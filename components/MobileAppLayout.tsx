@@ -2,6 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { SearchProvider, useSearch } from '../contexts/SearchContext';
 import { MobileBottomNav } from './nav/MobileBottomNav';
+import { WordmarkLogo } from './WordmarkLogo';
 
 /**
  * MobileAppLayout Component
@@ -42,10 +43,15 @@ const MobileHeaderWithContext: React.FC<{
     >
       <div className="flex items-center justify-between px-4 h-16 gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
-          <img src="./fakeballswhite.svg" alt="" className="w-8 h-8 flex-shrink-0 object-contain opacity-90 invert" aria-hidden="true" />
-          <h1 className="text-lg font-bold text-black font-display uppercase tracking-wider truncate">
-            {title || 'FAKE Tek'}
-          </h1>
+          <WordmarkLogo size="xs" />
+          {title && title !== 'FAKE Tek' && (
+            <>
+              <span className="text-black/20" aria-hidden="true">/</span>
+              <h1 className="text-sm font-bold text-black font-display uppercase tracking-wider truncate">
+                {title}
+              </h1>
+            </>
+          )}
         </div>
         {showSearch && (
           <button
@@ -75,10 +81,15 @@ const MobileHeader: React.FC<{
     >
       <div className="flex items-center justify-between px-4 h-16 gap-3">
         <div className="flex items-center gap-2.5 min-w-0">
-          <img src="./fakeballswhite.svg" alt="" className="w-8 h-8 flex-shrink-0 object-contain opacity-90 invert" aria-hidden="true" />
-          <h1 className="text-lg font-bold text-black font-display uppercase tracking-wider truncate">
-            {title || 'FAKE Tek'}
-          </h1>
+          <WordmarkLogo size="xs" />
+          {title && title !== 'FAKE Tek' && (
+            <>
+              <span className="text-black/20" aria-hidden="true">/</span>
+              <h1 className="text-sm font-bold text-black font-display uppercase tracking-wider truncate">
+                {title}
+              </h1>
+            </>
+          )}
         </div>
         {showSearch && (
           <button

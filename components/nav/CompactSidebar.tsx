@@ -19,6 +19,7 @@ import { Tooltip } from '../ui/Tooltip';
 import { Sheet } from '../ui/Sheet';
 import { Separator } from '../ui/Separator';
 import { DESKTOP_PRIMARY, DESKTOP_MORE } from './navConfig';
+import { WordmarkLogo } from '../WordmarkLogo';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string; size?: number }>> = {
   Home,
@@ -91,17 +92,7 @@ export const CompactSidebar: React.FC<CompactSidebarProps> = ({ isAuthorized, on
             className="flex items-center gap-3 min-w-0 flex-1"
             aria-label="FAKE Tek Home"
           >
-            <img
-              src="./fakeballswhite.svg"
-              alt=""
-              className="w-9 h-9 flex-shrink-0 object-contain opacity-90 group-hover:opacity-100 transition-opacity invert"
-              aria-hidden="true"
-            />
-            {isHoverOrExpanded && (
-              <span className="font-bold text-lg tracking-[0.2em] text-black font-display whitespace-nowrap overflow-hidden">
-                FAKE
-              </span>
-            )}
+            <WordmarkLogo size={isHoverOrExpanded ? 'sm' : 'xs'} compact={!isHoverOrExpanded} />
           </Link>
           <button
             type="button"

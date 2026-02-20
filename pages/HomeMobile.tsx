@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { CornerHover } from '../components/ui/CornerHover';
 import { useHeroTyping } from '../hooks/useHeroTyping';
+import { WordmarkLogo } from '../components/WordmarkLogo';
 
 /**
  * Home Page Mobile View — logo → FAKE Tek → live typing → rest
@@ -24,29 +25,9 @@ const HomeMobile: React.FC = () => {
           <div className="space-y-4">
             {/* 1. Logo then FAKE Tek */}
             <div className={`flex flex-col items-center justify-center space-y-2 sm:space-y-3 transition-opacity duration-500 ${phase >= 0 ? 'opacity-100' : 'opacity-0'}`}>
-              <div 
-                className="relative flex items-center justify-center"
-                style={{ width: 'min(85vw, clamp(10rem, 35vmin, 16rem))', height: 'min(85vw, clamp(10rem, 35vmin, 16rem))' }}
-              >
-                <img
-                  src="./fakeballswhite.svg"
-                  alt=""
-                  className="absolute inset-0 w-full h-full object-contain opacity-[0.12] invert select-none pointer-events-none"
-                  aria-hidden="true"
-                />
-                <h1 
-                  className={`relative z-10 font-bold tracking-tight text-black font-display uppercase text-center leading-none transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
-                  style={{ fontSize: 'clamp(2.5rem, 14vmin, 5rem)' }}
-                >
-                  FAKE
-                </h1>
+              <div className={`transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}>
+                <WordmarkLogo size="lg" stacked />
               </div>
-              <h2 
-                className={`font-bold tracking-tight text-soft-slate font-display uppercase transition-opacity duration-500 ${phase >= 1 ? 'opacity-100' : 'opacity-0'}`}
-                style={{ fontSize: 'clamp(1.25rem, 5vmin, 2.5rem)' }}
-              >
-                Tek
-              </h2>
             </div>
             {/* 2. Live typing */}
             <div className="space-y-2 min-h-[3em] flex flex-col justify-center">
